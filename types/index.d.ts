@@ -103,6 +103,13 @@ interface SpeakingSet {
 	firstPartId: string;
 }
 
+interface WritingSet {
+	topic: string;
+	firstPart: string;
+	firstPartImgUrl: string;
+	secondPart: string;
+}
+
 interface SavedMessage {
 	role: "user" | "system" | "assistant";
 	content: string;

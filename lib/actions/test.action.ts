@@ -5,6 +5,7 @@ import { createSupabaseClient } from "../supabase";
 import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 import { format, subDays, addDays } from "date-fns";
+import { PostgrestError } from "@supabase/supabase-js";
 
 export const getRandomPart1Questions = async () => {
 	const supabase = createSupabaseClient();
@@ -35,7 +36,7 @@ export const getSpeakingSetForUser = async (id: string) => {
 
 	const { data: questions, error } = await supabase
 		.from("speaking_sets")
-		.select("id, order_id, topic, cue_card, questions")
+		.select("id, topic, cue_card, questions")
 		.eq("id", id)
 		.single();
 
@@ -55,34 +56,60 @@ export const getSpeakingSetForUser = async (id: string) => {
 	} as SpeakingSet;
 };
 
-export const getUniqueCompletedCount = async (userId: string) => {
+export const getUniqueCompletedCount = async (userId: string, test: string) => {
 	const supabase = createSupabaseClient();
 
-	const { data: completedResults, error } = await supabase
-		.from("speaking_results")
-		.select("set_id_second")
-		.eq("user_id", userId);
+	const testSelect = {
+		speaking: "set_id_second",
+		writing: "set_id",
+	};
+
+	type ResultRow = { set_id_second: string } | { set_id: string }; // set_id_second for speaking, set_id for the rest
+
+	const { data: completedResults, error } = (await supabase
+		.from(`${test}_results`)
+		.select(testSelect[test as keyof typeof testSelect]) // Dynamically select the column based on the test type
+		.eq("user_id", userId)) as unknown as {
+		data: ResultRow[] | null;
+		error: PostgrestError | null;
+	}; // Type assertion to ensure data is treated as ResultRow[]
 
 	if (error || !completedResults) {
-		console.error("Failed to fetch speaking results:", error?.message);
+		console.error("Failed to fetch results:", error?.message);
 		return 0;
 	}
 
 	const uniqueResults = new Set(
-		completedResults.map((result) => result.set_id_second)
+		completedResults.map((result) => {
+			if ("set_id_second" in result) {
+				return result.set_id_second;
+			} else {
+				return result.set_id;
+			}
+		})
 	);
 
 	return uniqueResults.size;
 };
 
-export const getRandomSetId = async (userId: string) => {
+export const getRandomSetId = async (userId: string, test: string) => {
 	const supabase = createSupabaseClient();
 
+	const testSelect = {
+		speaking: "set_id_second",
+		writing: "set_id",
+	};
+
+	type ResultRow = { set_id_second: string } | { set_id: string }; // set_id_second for speaking, set_id for the rest
+
 	// 1. Get completed set IDs
-	const { data: completed, error: completedError } = await supabase
-		.from("speaking_results")
-		.select("set_id_second")
-		.eq("user_id", userId);
+	const { data: completed, error: completedError } = (await supabase
+		.from(`${test}_results`)
+		.select(testSelect[test as keyof typeof testSelect]) // Dynamically select the column based on the test type
+		.eq("user_id", userId)) as unknown as {
+		data: ResultRow[] | null;
+		error: PostgrestError | null;
+	}; // Type assertion to ensure data is treated as ResultRow[]
 
 	if (completedError) {
 		throw new Error(
@@ -90,11 +117,19 @@ export const getRandomSetId = async (userId: string) => {
 		);
 	}
 
-	const completedIds = new Set(completed?.map((r) => r.set_id_second));
+	const completedIds = new Set(
+		completed?.map((result) => {
+			if ("set_id_second" in result) {
+				return result.set_id_second;
+			} else {
+				return result.set_id;
+			}
+		})
+	);
 
 	// 2. Get all available sets
 	const { data: sets, error: setsError } = await supabase
-		.from("speaking_sets")
+		.from(`${test}_sets`)
 		.select("id, order_id");
 
 	if (setsError || !sets || sets.length === 0) {
@@ -112,15 +147,15 @@ export const getRandomSetId = async (userId: string) => {
 	return uncompletedSets[randomIndex].id;
 };
 
-export const getSpeakingTopicAndId = async () => {
+export const getTopicAndId = async (test: string) => {
 	const supabase = createSupabaseClient();
 
 	const { data: sets, error } = await supabase
-		.from("speaking_sets")
+		.from(`${test}_sets`)
 		.select("id, topic");
 
 	if (error || !sets || sets.length === 0) {
-		throw new Error(error?.message || "No speaking sets found");
+		throw new Error(error?.message || "No sets found");
 	}
 
 	// Use a Map to ensure uniqueness by topic
@@ -135,6 +170,31 @@ export const getSpeakingTopicAndId = async () => {
 		topics: sets,
 		uniqueTopics: Array.from(uniqueTopicsMap.values()),
 	};
+};
+
+export const getWritingSetForUser = async (id: string) => {
+	const supabase = createSupabaseClient();
+
+	const { data: set, error } = await supabase
+		.from("writing_sets")
+		.select(
+			"id, topic, first_part_question, first_part_img_url, second_part_question"
+		)
+		.eq("id", id)
+		.single();
+
+	if (error || !set) {
+		throw new Error(
+			error?.message || "No writing set found for the given ID"
+		);
+	}
+
+	return {
+		topic: set.topic,
+		firstPart: set.first_part_question,
+		firstPartImgUrl: set.first_part_img_url,
+		secondPart: set.second_part_question,
+	} as WritingSet;
 };
 
 export const createFeedback = async (params: CreateFeedbackParams) => {

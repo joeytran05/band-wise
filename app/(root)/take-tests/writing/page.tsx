@@ -1,17 +1,16 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Timer } from "lucide-react";
 import { RedirectToSignIn } from "@clerk/nextjs";
-import { getTopicAndId } from "@/lib/actions/test.action";
-import MicTest from "@/components/MicTest";
-import ProgressBadge from "@/components/ProgressBadge";
 import TestSelector from "@/components/TestSelector";
 import FeatureDescription from "@/components/FeatureDescription";
+import ProgressBadge from "@/components/ProgressBadge";
 import { auth } from "@clerk/nextjs/server";
+import { getTopicAndId } from "@/lib/actions/test.action";
 
 const testModes = [
 	{ label: "Full Test", value: "full" },
-	{ label: "Part 1 Only", value: "part1" },
-	{ label: "Part 2 & 3", value: "part2and3" },
+	{ label: "Task 1 Only", value: "task1" },
+	{ label: "Task 2 Only", value: "task2" },
 ];
 
 const SpeakingTestSession = async () => {
@@ -21,59 +20,50 @@ const SpeakingTestSession = async () => {
 	if (!userId) return <RedirectToSignIn />;
 
 	return (
-		<div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
+		<div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
 			<h1 className="text-3xl font-bold text-center">
-				Prepare for the IELTS Speaking Test
+				Prepare for the IELTS Writing Test
 			</h1>
 			<p className="text-center text-gray-600">
 				Choose a test set and review the format before beginning.
 			</p>
 
-			<div className="flex justify-between items-center">
-				<MicTest />
-
-				<ProgressBadge test="speaking" />
-			</div>
+			<ProgressBadge test="writing" />
 
 			{/* Format Card */}
 			<Card>
 				<CardContent className="space-y-3 px-5">
 					<h2 className="text-xl font-semibold">
-						Speaking Test Format
+						Writing Test Format
 					</h2>
 					<ul className="list-disc pl-5 text-gray-700 text-sm space-y-1">
 						<li>
-							<strong>Part 1:</strong> Introduction & Interview
-							(4–5 mins)
+							<strong>Task 1:</strong> Describe visual information
+							(e.g., charts, graphs, maps). (150 words - 20 mins)
 						</li>
 						<li>
-							<strong>Part 2:</strong> Long Turn — 1-minute prep,
-							1–2 mins speaking
-						</li>
-						<li>
-							<strong>Part 3:</strong> Discussion on abstract
-							ideas (4–5 mins)
+							<strong>Task 2:</strong> Write an essay in response
+							to a problem or argument. (250 words - 40 mins)
 						</li>
 					</ul>
 					<div className="flex items-center gap-2 text-sm text-muted-foreground">
 						<Timer className="w-4 h-4" />
-						Estimated Total Time: 11–14 minutes
+						Estimated Total Time: 60 minutes
 					</div>
 
 					<FeatureDescription
 						content={
 							<div>
 								<p className="mb-2">
-									Take the speaking test in real-time powered
-									by AI. Our platform uses advanced voice
-									recognition and AI-driven analysis to
-									simulate an IELTS examiner.
+									Take the writing test using our AI-enhanced
+									platform. You&apos;ll complete two writing
+									tasks in a timed environment, and receive
+									instant feedback on coherence, grammar,
+									vocabulary, and structure.
 								</p>
 								<p>
-									You&apos;ll answer questions live, and
-									receive instant, personalized feedback on
-									your fluency, pronunciation, and coherence —
-									helping you improve faster with each
+									AI feedback helps you track improvement and
+									understand where to focus for your next
 									attempt.
 								</p>
 							</div>
@@ -83,7 +73,7 @@ const SpeakingTestSession = async () => {
 			</Card>
 
 			<TestSelector
-				test="speaking"
+				test="writing"
 				sets={uniqueTopics}
 				testModes={testModes}
 			/>
