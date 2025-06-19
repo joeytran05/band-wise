@@ -7,11 +7,6 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
-interface SpeakingTestSessionProps {
-	params: Promise<{ id: string }>;
-	searchParams: Promise<{ mode: string }>;
-}
-
 export enum TestPart {
 	part1 = "Part 1",
 	part2 = "Part 2",
@@ -30,10 +25,7 @@ const testDescriptions = {
 	part3: "Discussion on abstract ideas",
 };
 
-const SpeakingTestSession = ({
-	params,
-	searchParams,
-}: SpeakingTestSessionProps) => {
+const SpeakingTestSession = ({ params, searchParams }: TestSessionProps) => {
 	const [testPart, setTestPart] = useState<TestPart>(TestPart.part1);
 	const [questions, setQuestions] = useState<FullTestQuestions>();
 	const [topics, setTopics] = useState<string[]>([]);

@@ -13,11 +13,21 @@ interface Feedback {
 	created_at: string;
 }
 
-interface CreateFeedbackParams {
+interface CreateSpeakingFeedbackParams {
 	userId: string;
 	testId: string;
 	firstPartId: string;
 	transcript: { role: string; content: string }[];
+	feedbackId?: string;
+}
+
+interface CreateWritingFeedbackParams {
+	userId: string;
+	testId: string;
+	task1Question: string;
+	task1: string;
+	task2Question: string;
+	task2: string;
 	feedbackId?: string;
 }
 
@@ -29,6 +39,7 @@ interface RouteParams {
 interface GetFeedbackBySetIdParams {
 	id: string;
 	userId: string;
+	test: string;
 }
 
 interface SignInParams {
@@ -68,6 +79,15 @@ interface SpeakingComponentProps {
 	topics: string[];
 	mode: TestMode;
 	setTestPart: (part: TestPart) => void;
+}
+
+interface WritingComponentProps {
+	topic?: string;
+	firstPart: string;
+	firstPartImgUrl: string;
+	secondPart: string;
+	setId: string;
+	mode: TestMode;
 }
 
 interface FirstPart {
@@ -113,4 +133,9 @@ interface WritingSet {
 interface SavedMessage {
 	role: "user" | "system" | "assistant";
 	content: string;
+}
+
+interface TestSessionProps {
+	params: Promise<{ id: string }>;
+	searchParams: Promise<{ mode: string }>;
 }

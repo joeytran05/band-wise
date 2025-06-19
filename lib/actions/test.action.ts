@@ -1,6 +1,6 @@
 "use server";
 
-import { feedbackSchema } from "@/constants";
+import { speakingFeedbackSchema, writingFeedbackSchema } from "@/constants";
 import { createSupabaseClient } from "../supabase";
 import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
@@ -197,7 +197,9 @@ export const getWritingSetForUser = async (id: string) => {
 	} as WritingSet;
 };
 
-export const createFeedback = async (params: CreateFeedbackParams) => {
+export const createSpeakingFeedback = async (
+	params: CreateSpeakingFeedbackParams
+) => {
 	const { testId, firstPartId, userId, transcript } = params;
 	const supabase = createSupabaseClient();
 
@@ -221,7 +223,7 @@ export const createFeedback = async (params: CreateFeedbackParams) => {
 			model: google("gemini-2.0-flash-001", {
 				structuredOutputs: false,
 			}),
-			schema: feedbackSchema,
+			schema: speakingFeedbackSchema,
 			prompt: `
         You are an AI IELTS examiner analyzing an IELTS mock speaking test. Your task is to evaluate the candidate based on structured categories. Be thorough and detailed in your analysis. Don't be lenient with the candidate. If there are mistakes or areas for improvement, point them out.
         Transcript:
@@ -266,14 +268,105 @@ a feature which will help to determine the complexity of propositions which can 
 	}
 };
 
+export const createWritingFeedback = async (
+	params: CreateWritingFeedbackParams
+) => {
+	const { testId, userId, task1Question, task1, task2Question, task2 } =
+		params;
+	const supabase = createSupabaseClient();
+
+	try {
+		const {
+			object: {
+				total_score,
+				category_scores,
+				strengths,
+				areas_for_improvement,
+				final_assessment,
+			},
+		} = await generateObject({
+			model: google("gemini-2.0-flash-001", {
+				structuredOutputs: false,
+			}),
+			schema: writingFeedbackSchema,
+			prompt: `
+		You are an AI IELTS examiner analyzing a candidate’s Writing test. The candidate completed both Task 1 and Task 2 of the IELTS Academic Writing test.
+		Your job is to critically evaluate the answers based on IELTS Writing Band Descriptors.
+		Be objective and detailed.
+		Do not be lenient — highlight weaknesses clearly, and penalize missing or underdeveloped content.
+
+		---
+
+		**Task 1 Question:**
+		${task1Question}
+
+		**Task 1 Response:**
+		${task1}
+
+		**Task 2 Question:**
+		${task2Question}
+
+		**Task 2 Response:**
+		${task2}
+
+		---
+
+		Please score the candidate from 0 to 9 in the following areas. Scores must be either whole (e.g. 6.0) or half-band (e.g. 6.5). Do not add categories other than the ones provided:
+
+		- **Task Response**: How well the candidate addresses all parts of the task, presents a clear position, and develops an argument with relevant ideas.
+		- **Coherence and Cohesion**: How logically information is organized and ideas are linked with appropriate cohesive devices.
+		- **Lexical Resource**: The variety and precision of vocabulary, collocations, and word choice.
+		- **Grammatical Range and Accuracy**: The range and correctness of sentence structures, tenses, and grammar.
+
+		Scoring Guidelines:
+		- Use 0 for any category if the candidate submitted an empty answer.
+		- If either Task 1 or Task 2 is completely missing, reduce 2 full band points from the total score.
+		- Be honest and critical — the final score should reflect the candidate's weaknesses as well as their strengths.
+
+		Return your evaluation as a structured object.
+		`,
+			system: "You are a professional IELTS Writing examiner evaluating both Writing Task 1 and Task 2. Follow IELTS Band Descriptors closely.",
+		});
+
+		const { data, error } = await supabase
+			.from("writing_results")
+			.insert({
+				user_id: userId,
+				set_id: testId,
+				total_score,
+				category_scores,
+				strengths,
+				areas_for_improvement,
+				final_assessment,
+			})
+			.select();
+
+		if (error || !data)
+			throw new Error(error?.message || "Failed to create feedback");
+
+		return { success: true, feedbackId: data[0].set_id };
+	} catch (e) {
+		console.error("Error creating feedback:", e);
+		return {
+			success: false,
+			feedbackId: "",
+		};
+	}
+};
+
 export const getFeedbackById = async (params: GetFeedbackBySetIdParams) => {
 	const supabase = createSupabaseClient();
-	const { id, userId } = params;
+	const { id, userId, test } = params;
+
+	const testSelect = {
+		speaking: "set_id_second",
+		writing: "set_id",
+	};
 
 	const { data, error } = await supabase
-		.from("speaking_results")
+		.from(`${test}_results`)
 		.select("*")
-		.eq("set_id_second", id)
+		.eq(testSelect[test as keyof typeof testSelect], id)
 		.eq("user_id", userId)
 		.order("created_at", { ascending: false })
 		.limit(1)

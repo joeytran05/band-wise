@@ -18,17 +18,17 @@ import {
 import DropDownMenu from "./DropDownMenu";
 
 const navItems = [
-	{ label: "Mock Tests", href: "/mock-tests" },
+	{ label: "Take Tests", href: "/take-tests" },
 	{ label: "Learning", href: "/learning" },
 	{ label: "AI", href: "/ai" },
 	{ label: "Personalized", href: "/personalized" },
 ];
 
 const mockTestItems = [
-	{ label: "Speaking", href: "/mock-tests/speaking" },
-	{ label: "Writing", href: "/mock-tests/writing" },
-	{ label: "Listening", href: "/mock-tests/listening" },
-	{ label: "Reading", href: "/mock-tests/reading" },
+	{ label: "Speaking", href: "/take-tests/speaking" },
+	{ label: "Writing", href: "/take-tests/writing" },
+	{ label: "Listening", href: "/take-tests/listening" },
+	{ label: "Reading", href: "/take-tests/reading" },
 ];
 
 const NavBar = () => {
@@ -49,15 +49,15 @@ const NavBar = () => {
 							</DrawerHeader>
 							<nav className="flex flex-col gap-4 px-4">
 								{navItems.map((item) =>
-									item.label === "Mock Tests" ? (
+									item.label === "Take Tests" ? (
 										<DropDownMenu
 											key={item.href}
 											trigger={
 												<Link
-													href="/mock-tests"
+													href="/take-tests"
 													className="text-2xl font-medium"
 												>
-													Mock Tests
+													Take Tests
 												</Link>
 											}
 											content={

@@ -15,6 +15,7 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { capitalize } from "@/lib/utils";
+import { useTestAccessStore } from "@/stores/useTestAccessStore";
 
 interface TestSelectorProps {
 	test: string;
@@ -36,6 +37,8 @@ const TestSelector = ({ test, sets, testModes }: TestSelectorProps) => {
 	const { user, isLoaded } = useUser();
 	const router = useRouter();
 
+	const allowAccess = useTestAccessStore((state) => state.allowAccess);
+
 	if (!user && isLoaded) throw new Error("User not authenticated");
 
 	const handleSetChange = (value: string) => {
@@ -52,10 +55,13 @@ const TestSelector = ({ test, sets, testModes }: TestSelectorProps) => {
 
 	const startTest = async () => {
 		setIsStarting(true);
+
 		const idToUse =
 			selectedSetId === "random"
 				? `${await getRandomSetId(user!.id, test)}`
 				: selectedSetId;
+
+		allowAccess();
 		redirectToTest(idToUse);
 	};
 

@@ -65,7 +65,7 @@ export const voices = {
 	female: { casual: "ZIlrSGI4jZqobxRKprJz", formal: "sarah" },
 };
 
-export const feedbackSchema = z.object({
+export const speakingFeedbackSchema = z.object({
 	total_score: z.number(),
 	category_scores: z.tuple([
 		z.object({
@@ -85,6 +85,35 @@ export const feedbackSchema = z.object({
 		}),
 		z.object({
 			name: z.literal("Pronunciation"),
+			score: z.number(),
+			comment: z.string(),
+		}),
+	]),
+	strengths: z.array(z.string()),
+	areas_for_improvement: z.array(z.string()),
+	final_assessment: z.string(),
+});
+
+export const writingFeedbackSchema = z.object({
+	total_score: z.number(),
+	category_scores: z.tuple([
+		z.object({
+			name: z.literal("Task Response"),
+			score: z.number(),
+			comment: z.string(),
+		}),
+		z.object({
+			name: z.literal("Coherence and Cohesion"),
+			score: z.number(),
+			comment: z.string(),
+		}),
+		z.object({
+			name: z.literal("Lexical Resource"),
+			score: z.number(),
+			comment: z.string(),
+		}),
+		z.object({
+			name: z.literal("Grammatical Range and Accuracy"),
 			score: z.number(),
 			comment: z.string(),
 		}),

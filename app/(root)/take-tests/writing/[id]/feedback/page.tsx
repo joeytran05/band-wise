@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { Button } from "@/components/ui/button";
 import {
 	getFeedbackById,
-	getSpeakingSetForUser,
+	getWritingSetForUser,
 } from "@/lib/actions/test.action";
 
 const Page = async ({ params }: RouteParams) => {
@@ -15,13 +15,13 @@ const Page = async ({ params }: RouteParams) => {
 
 	if (!user) redirect("/sign-in");
 
-	const speakingSet = await getSpeakingSetForUser(id);
-	if (!speakingSet) redirect("/dashboard");
+	const writingSet = await getWritingSetForUser(id);
+	if (!writingSet) redirect("/dashboard");
 
 	const feedback = await getFeedbackById({
 		id,
 		userId: user.id,
-		test: "speaking",
+		test: "writing",
 	});
 
 	if (!feedback) {
@@ -42,7 +42,7 @@ const Page = async ({ params }: RouteParams) => {
 			{/* Header */}
 			<div className="text-center">
 				<h1 className="text-3xl font-bold text-primary">
-					Speaking Test Feedback
+					Writing Test Feedback
 				</h1>
 				<p className="text-sm text-muted-foreground mt-1">
 					Your performance summary and tips for improvement.

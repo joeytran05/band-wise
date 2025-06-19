@@ -14,7 +14,7 @@ import soundwaves from "@/constants/soundwaves.json";
 import loadingSpinner from "@/constants/loading.json";
 import { useRouter } from "next/navigation";
 import DropDownMenu from "./DropDownMenu";
-import { createFeedback } from "@/lib/actions/test.action";
+import { createSpeakingFeedback } from "@/lib/actions/test.action";
 import { TestPart } from "@/app/(root)/take-tests/speaking/[id]/page";
 import { toast } from "sonner";
 
@@ -166,7 +166,7 @@ const SpeakingComponent = ({
 	const handleGenerateFeedback = async (messsages: SavedMessage[]) => {
 		console.log("Generate feedback with messages:", messsages);
 
-		const { success, feedbackId: id } = await createFeedback({
+		const { success, feedbackId: id } = await createSpeakingFeedback({
 			userId: userId,
 			testId: setId,
 			firstPartId: firstPartId,
