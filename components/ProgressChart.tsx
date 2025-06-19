@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getDailySpeakingBands } from "@/lib/actions/test.action";
+import { getUserScoresWithTarget } from "@/lib/actions/dashboard.action";
 
 const chartConfig = {
 	band: {
@@ -35,8 +35,12 @@ const ProgressChart = () => {
 			if (!user?.id) return;
 
 			setLoading(true);
-			const data = await getDailySpeakingBands(user.id);
-			setChartData(data);
+			try {
+				const data = await getUserScoresWithTarget(user.id);
+				setChartData(data);
+			} catch (error) {
+				console.error("Failed to fetch scores with target:", error);
+			}
 			setLoading(false);
 		};
 

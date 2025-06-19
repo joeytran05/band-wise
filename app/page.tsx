@@ -21,7 +21,7 @@ const Landing = async () => {
 				</p>
 			</div>
 
-			<LandingNavBar />
+			<LandingNavBar isSignedIn={isSignedIn} />
 
 			<section className="text-center bg-white">
 				<div className="relative">

@@ -139,3 +139,9 @@ interface TestSessionProps {
 	params: Promise<{ id: string }>;
 	searchParams: Promise<{ mode: string }>;
 }
+
+interface ScoreData {
+	day: string;
+	band: number;
+	target: number;
+}

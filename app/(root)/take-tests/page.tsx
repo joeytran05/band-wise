@@ -1,9 +1,9 @@
-"use client";
-
 import { Headphones, BookOpen, PenLine, Mic } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { RedirectToSignIn } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 
 const tests = [
 	{
@@ -39,7 +39,13 @@ const tests = [
 	},
 ];
 
-const TakeTests = () => {
+const TakeTests = async () => {
+	const { userId } = await auth();
+
+	if (!userId) {
+		return <RedirectToSignIn />;
+	}
+
 	return (
 		<div className="max-w-5xl mx-auto px-4 py-10">
 			<h1 className="text-3xl font-bold mb-6 text-center">Take a Test</h1>

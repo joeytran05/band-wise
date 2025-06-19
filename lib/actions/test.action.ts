@@ -4,7 +4,6 @@ import { speakingFeedbackSchema, writingFeedbackSchema } from "@/constants";
 import { createSupabaseClient } from "../supabase";
 import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
-import { format, subDays, addDays } from "date-fns";
 import { PostgrestError } from "@supabase/supabase-js";
 
 export const getRandomPart1Questions = async () => {
@@ -377,54 +376,4 @@ export const getFeedbackById = async (params: GetFeedbackBySetIdParams) => {
 	}
 
 	return data as Feedback;
-};
-
-export const getDailySpeakingBands = async (userId: string) => {
-	const supabase = createSupabaseClient();
-
-	const today = new Date();
-	const sevenDaysAgo = subDays(today, 6);
-
-	const { data, error } = await supabase
-		.from("speaking_results")
-		.select("created_at, total_score")
-		.eq("user_id", userId)
-		.gte("created_at", sevenDaysAgo.toISOString());
-
-	if (error || !data) return [];
-
-	// Group scores by date
-	const scoreMap = new Map<string, number[]>();
-	for (const result of data) {
-		const day = format(new Date(result.created_at), "yyyy-MM-dd");
-		if (!scoreMap.has(day)) scoreMap.set(day, []);
-		scoreMap.get(day)!.push(result.total_score);
-	}
-
-	const roundToNearestHalf = (num: number): number => {
-		return Math.round(num * 2) / 2;
-	};
-
-	// Fill in 7 days with band scores (carrying forward last known)
-	const filledData: { day: string; band: number; target: number }[] = [];
-	let lastKnownScore: number = 0;
-	const target = 7;
-
-	for (let i = 0; i < 7; i++) {
-		const date = addDays(sevenDaysAgo, i);
-		const key = format(date, "yyyy-MM-dd");
-		const display = format(date, "MMM d");
-
-		const scores = scoreMap.get(key);
-		if (scores && scores.length > 0) {
-			const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
-			const rounded = roundToNearestHalf(avg);
-			lastKnownScore = rounded;
-			filledData.push({ day: display, band: rounded, target });
-		} else {
-			filledData.push({ day: display, band: lastKnownScore, target });
-		}
-	}
-
-	return filledData;
 };

@@ -31,7 +31,7 @@ const mockTestItems = [
 	{ label: "Speaking", href: "/take-tests/speaking" },
 ];
 
-const LandingNavBar = () => {
+const LandingNavBar = ({ isSignedIn }: { isSignedIn: boolean }) => {
 	return (
 		<div className="flex items-center justify-between max-w-7xl mx-auto border-b p-4">
 			<div className="flex items-center gap-2">
@@ -144,7 +144,11 @@ const LandingNavBar = () => {
 			</div>
 
 			{/* Center section navigation links */}
-			<div className="hidden lg:flex flex-1 justify-center pr-5 gap-6">
+			<div
+				className={`hidden lg:flex flex-1 justify-center ${
+					isSignedIn ? "pr-30" : "pl-10"
+				} gap-6`}
+			>
 				<Link
 					href="#features"
 					className="text-gray-700 hover:text-red-500 transition"
@@ -171,13 +175,15 @@ const LandingNavBar = () => {
 					<SignInButton>
 						<Button variant="ghost">Sign In</Button>
 					</SignInButton>
+					<Link href="#pricing">
+						<Button className="btn-red-gradient">
+							Get Started
+						</Button>
+					</Link>
 				</SignedOut>
 				<SignedIn>
 					<UserButton />
 				</SignedIn>
-				<Link href="#pricing">
-					<Button className="btn-red-gradient">Get Started</Button>
-				</Link>
 			</div>
 		</div>
 	);
