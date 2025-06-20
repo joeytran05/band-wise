@@ -50,11 +50,27 @@ export default function ResultAccordion({ results }: ResultAccordionProps) {
 								{results[comp].map((res) => (
 									<Card key={res.id}>
 										<CardHeader className="pb-2">
-											<CardTitle className="text-base font-medium">
+											<CardTitle className="text-base font-medium flex items-center justify-between">
 												{format(
 													new Date(res.date),
 													"MMM d, yyyy"
 												)}
+												<span
+													className={`text-xs px-2 py-1  rounded-full font-semibold uppercase ${
+														res.total_score >= 8
+															? "bg-yellow-300 text-yellow-900"
+															: res.total_score >=
+															  6
+															? "bg-green-300 text-green-900"
+															: "bg-red-300 text-red-900"
+													}`}
+												>
+													{res.total_score >= 8
+														? "Excellent"
+														: res.total_score >= 6
+														? "Good"
+														: "Needs Improvement"}
+												</span>
 											</CardTitle>
 										</CardHeader>
 										<CardContent className="space-y-2 text-sm">
