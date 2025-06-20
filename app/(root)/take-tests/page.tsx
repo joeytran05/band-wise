@@ -13,6 +13,7 @@ const tests = [
 			"Real-time speaking with AI and get instant expert feedback.",
 		href: "/take-tests/speaking",
 		duration: "15 mins",
+		ai: true,
 	},
 	{
 		title: "Writing Test",
@@ -20,6 +21,7 @@ const tests = [
 		description: "Practice writing Task 1 and Task 2 with AI scoring.",
 		href: "/take-tests/writing",
 		duration: "60 mins",
+		ai: true,
 	},
 	{
 		title: "Listening Test",
@@ -28,6 +30,7 @@ const tests = [
 			"Practice listening to real IELTS audio and answer questions.",
 		href: "/take-tests/listening",
 		duration: "30 mins",
+		comingSoon: true,
 	},
 	{
 		title: "Reading Test",
@@ -36,6 +39,7 @@ const tests = [
 			"Test your reading skills with academic and general texts.",
 		href: "/take-tests/reading",
 		duration: "60 mins",
+		comingSoon: true,
 	},
 ];
 
@@ -61,8 +65,18 @@ const TakeTests = async () => {
 						className="transition hover:shadow-md w-[45%]"
 					>
 						<CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-							<CardTitle className="text-lg font-semibold">
+							<CardTitle className="text-lg font-semibold flex items-center gap-2">
 								{test.title}
+								{test.ai && (
+									<span className="text-xs px-2 py-1 bg-yellow-300 text-yellow-900 rounded-full font-semibold uppercase">
+										AI
+									</span>
+								)}
+								{test.comingSoon && (
+									<span className="text-xs px-2 py-1 bg-red-300 text-yellow-900 rounded-full font-semibold uppercase">
+										Coming Soon
+									</span>
+								)}
 							</CardTitle>
 							{test.icon}
 						</CardHeader>
@@ -74,9 +88,15 @@ const TakeTests = async () => {
 								<span className="text-sm text-gray-500 dark:text-gray-400">
 									{test.duration}
 								</span>
-								<Link href={test.href}>
-									<Button>Start</Button>
-								</Link>
+								{!test.comingSoon ? (
+									<Link href={test.href}>
+										<Button className="cursor-pointer">
+											Start
+										</Button>
+									</Link>
+								) : (
+									<Button disabled>Start</Button>
+								)}
 							</div>
 						</CardContent>
 					</Card>
