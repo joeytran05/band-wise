@@ -4,6 +4,8 @@ import { speakingFeedbackSchema, writingFeedbackSchema } from "@/constants";
 import { createSupabaseClient } from "../supabase";
 import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
+import { auth } from "@clerk/nextjs/server";
+import { subDays } from "date-fns";
 // import { PostgrestError } from "@supabase/supabase-js";
 
 export const getRandomPart1Questions = async () => {
@@ -336,4 +338,59 @@ export const getFeedbackById = async (params: GetFeedbackBySetIdParams) => {
 	}
 
 	return data as Feedback;
+};
+
+export const getSpeakingPermission = async () => {
+	const supabase = createSupabaseClient();
+	const { userId, has } = await auth();
+
+	let limit = 0;
+
+	if (has({ plan: "premium_plan" })) {
+		return true;
+	} else if (has({ plan: "free_user" })) {
+		limit = 3;
+	}
+
+	const sevenDaysAgo = subDays(new Date(), 7).toISOString();
+
+	const { count, error } = await supabase
+		.from("speaking_results")
+		.select("id", { count: "exact", head: true })
+		.eq("user_id", userId)
+		.gte("created_at", sevenDaysAgo);
+
+	if (error) throw new Error(error.message);
+
+	if ((count ?? 0) >= limit) {
+		return false;
+	} else {
+		return true;
+	}
+};
+
+export const getViewWritingFeedbackPermission = async () => {
+	const supabase = createSupabaseClient();
+	const { userId, has } = await auth();
+
+	let limit = 0;
+
+	if (has({ plan: "premium_plan" })) {
+		return true;
+	} else if (has({ plan: "free_user" })) {
+		limit = 3;
+	}
+
+	const { count, error } = await supabase
+		.from("writing_results")
+		.select("id", { count: "exact", head: true })
+		.eq("user_id", userId);
+
+	if (error) throw new Error(error.message);
+
+	if ((count ?? 0) >= limit) {
+		return false;
+	} else {
+		return true;
+	}
 };

@@ -178,7 +178,6 @@ export const getUserComponentResults = async (
 		Writing: "writing_results",
 		Speaking: "speaking_results",
 	};
-	console.log(component);
 
 	const { data, error } = await supabase
 		.from(tableMap[component])

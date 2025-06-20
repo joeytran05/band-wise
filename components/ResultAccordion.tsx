@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { format } from "date-fns";
 import { BookText, Headphones, MessageSquare, PenLine } from "lucide-react";
+import ClientProgressBadge from "@/components/ClientProgressBadge";
 
 const componentIcons = {
 	Listening: <Headphones className="text-blue-600" />,
@@ -38,7 +39,8 @@ export default function ResultAccordion({ results }: ResultAccordionProps) {
 									comp as keyof typeof componentIcons
 								]
 							}
-							{comp} Results
+							<span>{comp} Results</span>
+							<ClientProgressBadge test={comp.toLowerCase()} />
 						</div>
 					</AccordionTrigger>
 

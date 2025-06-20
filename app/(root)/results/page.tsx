@@ -2,7 +2,8 @@ import { RedirectToSignIn } from "@clerk/nextjs";
 import { getUserComponentResults } from "@/lib/actions/dashboard.action";
 import { MessageSquare, PenLine } from "lucide-react";
 import ResultAccordion from "@/components/ResultAccordion";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
+import FeedbackAccessModal from "@/components/FeedbackAccessModal";
 
 const components = [
 	// { key: "Listening", icon: <Headphones className="text-blue-600" /> },
@@ -12,15 +13,16 @@ const components = [
 ];
 
 const ResultsPage = async () => {
-	const user = await currentUser();
+	const { userId, has } = await auth();
+	if (!userId) return <RedirectToSignIn />;
 
-	if (!user?.id) return <RedirectToSignIn />;
+	const hasAccess = has({ plan: "premium_plan" });
 
 	const results: Record<string, TestResult[]> = {};
 	await Promise.all(
 		components.map(async (comp) => {
 			const res = await getUserComponentResults(
-				user.id,
+				userId,
 				comp.key as TestComponentType
 			);
 			results[comp.key] = res;
@@ -28,9 +30,19 @@ const ResultsPage = async () => {
 	);
 
 	return (
-		<div className="max-w-6xl mx-auto px-4 py-10 space-y-10">
+		<div
+			className={`relative max-w-6xl mx-auto px-4 py-10 space-y-10 transition duration-500 ${
+				hasAccess ? "" : "blur-sm pointer-events-none select-none"
+			}`}
+		>
 			<h1 className="text-3xl font-bold text-center">Previous Results</h1>
 			<ResultAccordion results={results} />
+
+			{!hasAccess && (
+				<div className="absolute inset-0 flex items-center justify-center z-50">
+					<FeedbackAccessModal />
+				</div>
+			)}
 		</div>
 	);
 };

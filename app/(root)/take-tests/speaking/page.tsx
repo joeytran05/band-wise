@@ -1,12 +1,16 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Timer } from "lucide-react";
 import { RedirectToSignIn } from "@clerk/nextjs";
-import { getTopicAndId } from "@/lib/actions/test.action";
+import {
+	getSpeakingPermission,
+	getTopicAndId,
+} from "@/lib/actions/test.action";
 import MicTest from "@/components/MicTest";
 import ProgressBadge from "@/components/ProgressBadge";
 import TestSelector from "@/components/TestSelector";
 import FeatureDescription from "@/components/FeatureDescription";
 import { auth } from "@clerk/nextjs/server";
+import SpeakingLimitModal from "@/components/SpeakingLimitModal";
 
 const testModes = [
 	{ label: "Full Test", value: "full" },
@@ -20,8 +24,12 @@ const SpeakingTestSession = async () => {
 
 	if (!userId) return <RedirectToSignIn />;
 
+	const hasSpeakingPermission = await getSpeakingPermission();
+	console.log("Has speaking permission:", hasSpeakingPermission);
+
 	return (
 		<div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
+			{!hasSpeakingPermission && <SpeakingLimitModal />}
 			<h1 className="text-3xl font-bold text-center">
 				Prepare for the IELTS Speaking Test
 			</h1>

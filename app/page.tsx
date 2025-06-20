@@ -1,9 +1,10 @@
 import FeaturesSection from "@/components/FeaturesSection";
 import Footer from "@/components/Footer";
 import LandingNavBar from "@/components/LandingNavBar";
-import PricingSection from "@/components/PricingSection";
+// import PricingSection from "@/components/PricingSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { Button } from "@/components/ui/button";
+import { PricingTable } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
@@ -64,7 +65,9 @@ const Landing = async () => {
 
 			<TestimonialsSection />
 
-			<PricingSection />
+			{/* <PricingSection /> */}
+
+			<PricingTable />
 
 			<Footer />
 		</main>

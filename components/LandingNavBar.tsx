@@ -20,7 +20,7 @@ import DropDownMenu from "./DropDownMenu";
 const navItems = [
 	{ label: "Take Tests", href: "/take-tests" },
 	{ label: "Previous Results", href: "/results" },
-	{ label: "AI", href: "/ai" },
+	{ label: "Subscription", href: "/subscription" },
 	{ label: "Personalized", href: "/personalized" },
 ];
 

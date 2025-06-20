@@ -9,8 +9,9 @@ const plans = [
 		icon: Users,
 		features: [
 			"Basic mock tests",
-			"Limited AI speaking practice",
-			"Sample writing tasks",
+			"Limited AI speaking tests",
+			"Limited speaking & writing feedback",
+			"Personal score tracking",
 		],
 		bgColor: "bg-white",
 		borderColor: "border-gray-300",
@@ -23,7 +24,7 @@ const plans = [
 		features: [
 			"Full mock test access",
 			"AI speaking + writing evaluation",
-			"Progress tracking",
+			"2 speaking test attempts per week",
 			"Personalized learning plan",
 		],
 		bgColor: "bg-gray-100",
@@ -36,7 +37,6 @@ const plans = [
 		icon: Rocket,
 		features: [
 			"Everything in Pro",
-			"Voice-based interactive practice",
 			"Expert feedback review",
 			"Unlimited AI test attempts",
 		],
@@ -62,7 +62,7 @@ const PricingSection = () => {
 					{plans.map(({ title, price, features, icon: Icon }) => (
 						<div
 							key={title}
-							className="flex flex-col justify-between rounded-xl h-[370px] p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all"
+							className="flex flex-col justify-between rounded-xl lg:w-5xl h-[370px] p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all"
 						>
 							<div className="flex flex-col items-center">
 								<div className="flex justify-center mb-4">

@@ -1,26 +1,28 @@
 import { Star, Calendar, Award, CheckCircle, XCircle } from "lucide-react";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import dayjs from "dayjs";
 import { Button } from "@/components/ui/button";
 import {
 	getFeedbackById,
+	getViewWritingFeedbackPermission,
 	getWritingSetForUser,
 } from "@/lib/actions/test.action";
+import FeedbackAccessModal from "@/components/FeedbackAccessModal";
 
 const Page = async ({ params }: RouteParams) => {
 	const { id } = await params;
-	const user = await currentUser();
+	const { userId } = await auth();
 
-	if (!user) redirect("/sign-in");
+	if (!userId) redirect("/sign-in");
 
 	const writingSet = await getWritingSetForUser(id);
 	if (!writingSet) redirect("/dashboard");
 
 	const feedback = await getFeedbackById({
 		id,
-		userId: user.id,
+		userId: userId,
 		test: "writing",
 	});
 
@@ -37,8 +39,14 @@ const Page = async ({ params }: RouteParams) => {
 		);
 	}
 
+	const hasAccess = await getViewWritingFeedbackPermission();
+
 	return (
-		<section className="max-w-3xl mx-auto p-6 space-y-8">
+		<section
+			className={`relative max-w-3xl mx-auto p-6 space-y-8 transition duration-500 ${
+				hasAccess ? "" : "blur-sm pointer-events-none select-none"
+			}`}
+		>
 			{/* Header */}
 			<div className="text-center">
 				<h1 className="text-3xl font-bold text-primary">
@@ -145,6 +153,12 @@ const Page = async ({ params }: RouteParams) => {
 					</Link>
 				</Button>
 			</div>
+
+			{!hasAccess && (
+				<div className="absolute inset-0 flex items-center justify-center z-50">
+					<FeedbackAccessModal />
+				</div>
+			)}
 		</section>
 	);
 };
