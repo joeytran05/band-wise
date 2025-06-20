@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { FaAppStoreIos } from "react-icons/fa";
 import { FaGooglePlay } from "react-icons/fa";
@@ -19,17 +20,21 @@ const Footer = () => {
 				<div>
 					<p className="font-bold mb-2">Learn more about us</p>
 					<ul className="space-y-1">
-						<li>About Us</li>
-						<li>Media inquiries</li>
-						<li>Subscriptions</li>
+						<Link href="/about">
+							<li>About Us</li>
+						</Link>
+						<Link href="/subscription">
+							<li>Subscriptions</li>
+						</Link>
 					</ul>
 				</div>
 				<div>
 					<p className="font-bold mb-2">Customer assistance</p>
 					<ul className="space-y-1">
 						<li>Contact support</li>
-						<li>FAQ</li>
-						<li>Help center</li>
+						<Link href="/about">
+							<li>FAQ</li>
+						</Link>
 					</ul>
 				</div>
 				<div>

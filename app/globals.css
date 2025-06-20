@@ -379,6 +379,24 @@
 	.transcript-fade {
 		@apply pointer-events-none absolute bottom-0 left-0 right-0 h-40 max-sm:h-20 bg-gradient-to-t from-background via-background/90 to-transparent z-10;
 	}
+
+	.fade-bottom {
+		mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+		-webkit-mask-image: linear-gradient(
+			to bottom,
+			black 80%,
+			transparent 100%
+		);
+	}
+
+	.fade-top {
+		mask-image: linear-gradient(to top, black 80%, transparent 100%);
+		-webkit-mask-image: linear-gradient(
+			to top,
+			black 80%,
+			transparent 100%
+		);
+	}
 }
 
 @layer utilities {

@@ -24,13 +24,13 @@ const Landing = async () => {
 
 			<LandingNavBar isSignedIn={isSignedIn} />
 
-			<section className="text-center bg-white">
+			<section className="text-center">
 				<div className="relative">
 					<Image
 						src="/confetti-bg.png"
 						alt="Confetti Background"
 						fill
-						className="object-cover pointer-events-none z-0"
+						className="object-cover pointer-events-none z-0 fade-bottom"
 					/>
 					<div className="relative z-10 pt-5 pb-10">
 						<Image
@@ -50,7 +50,7 @@ const Landing = async () => {
 						</button> */}
 						<div className="rainbow-border-wrapper overflow-hidden mt-6 ">
 							<Link href={isSignedIn ? "/dashboard" : "#pricing"}>
-								<Button className="bg-red-500 font-semibold !rounded-full !px-6 !py-3 w-full h-full">
+								<Button className="bg-red-500 font-semibold !rounded-full !px-6 !py-3 w-full h-full cursor-pointer">
 									{isSignedIn
 										? "Go to Dashboard"
 										: "Get Started"}
@@ -67,7 +67,19 @@ const Landing = async () => {
 
 			{/* <PricingSection /> */}
 
-			<PricingTable />
+			<div
+				className="max-w-5xl mx-auto px-4 py-10 text-center"
+				id="pricing"
+			>
+				<h2 className="text-3xl font-bold mb-4 text-gray-900">
+					Choose Your Study Plan
+				</h2>
+				<p className="text-gray-600 mb-10">
+					Upgrade to unlock personalized, AI-powered IELTS
+					preparation.
+				</p>
+				<PricingTable />
+			</div>
 
 			<Footer />
 		</main>

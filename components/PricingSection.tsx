@@ -1,4 +1,4 @@
-import { CheckCircle, Rocket, Star, Users } from "lucide-react";
+import { CheckCircle, Rocket, Users } from "lucide-react";
 import { Button } from "./ui/button";
 import { SignInButton } from "@clerk/nextjs";
 
@@ -9,36 +9,37 @@ const plans = [
 		icon: Users,
 		features: [
 			"Basic mock tests",
-			"Limited AI speaking tests",
-			"Limited speaking & writing feedback",
-			"Personal score tracking",
+			"3 Speaking Tests/week",
+			"Limited AI feedbacks",
+			"Personal Score Tracking",
 		],
 		bgColor: "bg-white",
 		borderColor: "border-gray-300",
 		textColor: "text-gray-800",
 	},
-	{
-		title: "Pro Plan",
-		price: 19,
-		icon: Star,
-		features: [
-			"Full mock test access",
-			"AI speaking + writing evaluation",
-			"2 speaking test attempts per week",
-			"Personalized learning plan",
-		],
-		bgColor: "bg-gray-100",
-		borderColor: "border-gray-400",
-		textColor: "text-gray-900",
-	},
+	// {
+	// 	title: "Pro Plan",
+	// 	price: 19,
+	// 	icon: Star,
+	// 	features: [
+	// 		"Full mock test access",
+	// 		"AI speaking + writing evaluation",
+	// 		"2 speaking test attempts per week",
+	// 		"Personalized learning plan",
+	// 	],
+	// 	bgColor: "bg-gray-100",
+	// 	borderColor: "border-gray-400",
+	// 	textColor: "text-gray-900",
+	// },
 	{
 		title: "Premium Plan",
 		price: 39,
 		icon: Rocket,
 		features: [
-			"Everything in Pro",
-			"Expert feedback review",
-			"Unlimited AI test attempts",
+			"Everything in Free",
+			"Unlimited Speaking Tests with AI",
+			"Peronalized AI feedback",
+			"Access to Previous Tests Taken",
 		],
 		bgColor: "bg-gray-200",
 		borderColor: "border-gray-500",
@@ -48,7 +49,7 @@ const plans = [
 
 const PricingSection = () => {
 	return (
-		<section id="pricing" className="mt-5 mb-20 bg-white">
+		<section id="pricing" className="mt-5 mb-20 bg-white max-w-5xl mx-auto">
 			<div className="max-w-7xl mx-auto px-6 text-center">
 				<h2 className="text-3xl font-bold mb-4 text-gray-900">
 					Choose Your Study Plan

@@ -88,7 +88,7 @@ const features = [
 
 export default function FeatureSection() {
 	return (
-		<section id="features" className="py-16 bg-gray-50">
+		<section id="features" className="py-16 bg-white">
 			<div className="max-w-7xl mx-auto px-6 text-center">
 				<h2 className="text-3xl font-bold mb-4">Why BandWise?</h2>
 				<p className="text-gray-600 mb-10">
@@ -100,7 +100,7 @@ export default function FeatureSection() {
 				<div className="block lg:hidden">
 					<Carousel opts={{ loop: true }} className="w-full">
 						<CarouselContent className="-ml-4">
-							{features.map((feat) => (
+							{features.map((feat, index) => (
 								<CarouselItem
 									key={feat.title}
 									className="pl-4 basis-1/2"
@@ -109,6 +109,12 @@ export default function FeatureSection() {
 										title={feat.title}
 										description={feat.description}
 										icon={feat.icon}
+										highlight={index < 3}
+										className={
+											index < 3
+												? "border-2 border-red-500 bg-white shadow-md"
+												: "bg-gray-100"
+										}
 									/>
 								</CarouselItem>
 							))}
@@ -120,12 +126,18 @@ export default function FeatureSection() {
 
 				{/* 🖥️ Desktop View: Grid */}
 				<div className="hidden lg:grid grid-cols-3 gap-6 px-4">
-					{features.map((feat) => (
+					{features.map((feat, index) => (
 						<FeatureCard
 							key={feat.title}
 							title={feat.title}
 							description={feat.description}
 							icon={feat.icon}
+							highlight={index < 3}
+							className={
+								index < 3
+									? "border-2 border-red-500 bg-white shadow-md"
+									: "bg-gray-100"
+							}
 						/>
 					))}
 				</div>
