@@ -4,7 +4,7 @@ import { speakingFeedbackSchema, writingFeedbackSchema } from "@/constants";
 import { createSupabaseClient } from "../supabase";
 import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
-import { PostgrestError } from "@supabase/supabase-js";
+// import { PostgrestError } from "@supabase/supabase-js";
 
 export const getRandomPart1Questions = async () => {
 	const supabase = createSupabaseClient();
@@ -58,20 +58,10 @@ export const getSpeakingSetForUser = async (id: string) => {
 export const getUniqueCompletedCount = async (userId: string, test: string) => {
 	const supabase = createSupabaseClient();
 
-	const testSelect = {
-		speaking: "set_id_second",
-		writing: "set_id",
-	};
-
-	type ResultRow = { set_id_second: string } | { set_id: string }; // set_id_second for speaking, set_id for the rest
-
-	const { data: completedResults, error } = (await supabase
+	const { data: completedResults, error } = await supabase
 		.from(`${test}_results`)
-		.select(testSelect[test as keyof typeof testSelect]) // Dynamically select the column based on the test type
-		.eq("user_id", userId)) as unknown as {
-		data: ResultRow[] | null;
-		error: PostgrestError | null;
-	}; // Type assertion to ensure data is treated as ResultRow[]
+		.select("set_id")
+		.eq("user_id", userId);
 
 	if (error || !completedResults) {
 		console.error("Failed to fetch results:", error?.message);
@@ -79,13 +69,7 @@ export const getUniqueCompletedCount = async (userId: string, test: string) => {
 	}
 
 	const uniqueResults = new Set(
-		completedResults.map((result) => {
-			if ("set_id_second" in result) {
-				return result.set_id_second;
-			} else {
-				return result.set_id;
-			}
-		})
+		completedResults.map((result) => result.set_id)
 	);
 
 	return uniqueResults.size;
@@ -94,21 +78,10 @@ export const getUniqueCompletedCount = async (userId: string, test: string) => {
 export const getRandomSetId = async (userId: string, test: string) => {
 	const supabase = createSupabaseClient();
 
-	const testSelect = {
-		speaking: "set_id_second",
-		writing: "set_id",
-	};
-
-	type ResultRow = { set_id_second: string } | { set_id: string }; // set_id_second for speaking, set_id for the rest
-
-	// 1. Get completed set IDs
-	const { data: completed, error: completedError } = (await supabase
+	const { data: completed, error: completedError } = await supabase
 		.from(`${test}_results`)
-		.select(testSelect[test as keyof typeof testSelect]) // Dynamically select the column based on the test type
-		.eq("user_id", userId)) as unknown as {
-		data: ResultRow[] | null;
-		error: PostgrestError | null;
-	}; // Type assertion to ensure data is treated as ResultRow[]
+		.select("set_id")
+		.eq("user_id", userId);
 
 	if (completedError) {
 		throw new Error(
@@ -116,15 +89,7 @@ export const getRandomSetId = async (userId: string, test: string) => {
 		);
 	}
 
-	const completedIds = new Set(
-		completed?.map((result) => {
-			if ("set_id_second" in result) {
-				return result.set_id_second;
-			} else {
-				return result.set_id;
-			}
-		})
-	);
+	const completedIds = new Set(completed?.map((result) => result.set_id));
 
 	// 2. Get all available sets
 	const { data: sets, error: setsError } = await supabase
@@ -245,7 +210,7 @@ a feature which will help to determine the complexity of propositions which can 
 			.insert({
 				user_id: userId,
 				set_id_first: firstPartId,
-				set_id_second: testId,
+				set_id: testId,
 				total_score,
 				category_scores,
 				strengths,
@@ -257,7 +222,7 @@ a feature which will help to determine the complexity of propositions which can 
 		if (error || !data)
 			throw new Error(error?.message || "Failed to create feedback");
 
-		return { success: true, feedbackId: data[0].set_id_second };
+		return { success: true, feedbackId: data[0].set_id };
 	} catch (e) {
 		console.error("Error creating feedback:", e);
 		return {
@@ -357,15 +322,10 @@ export const getFeedbackById = async (params: GetFeedbackBySetIdParams) => {
 	const supabase = createSupabaseClient();
 	const { id, userId, test } = params;
 
-	const testSelect = {
-		speaking: "set_id_second",
-		writing: "set_id",
-	};
-
 	const { data, error } = await supabase
 		.from(`${test}_results`)
 		.select("*")
-		.eq(testSelect[test as keyof typeof testSelect], id)
+		.eq("set_id", id)
 		.eq("user_id", userId)
 		.order("created_at", { ascending: false })
 		.limit(1)

@@ -35,12 +35,10 @@ const ProgressChart = () => {
 			if (!user?.id) return;
 
 			setLoading(true);
-			try {
-				const data = await getUserScoresWithTarget(user.id);
-				setChartData(data);
-			} catch (error) {
-				console.error("Failed to fetch scores with target:", error);
-			}
+
+			const data = await getUserScoresWithTarget(user.id);
+			setChartData(data);
+
 			setLoading(false);
 		};
 

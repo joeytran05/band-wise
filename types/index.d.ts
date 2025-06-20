@@ -145,3 +145,13 @@ interface ScoreData {
 	band: number;
 	target: number;
 }
+
+interface TestResult {
+	id: string;
+	set_id: string;
+	total_score: number;
+	topic?: string;
+	date: string;
+}
+
+type TestComponentType = "Writing" | "Speaking";

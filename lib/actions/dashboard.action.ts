@@ -164,3 +164,36 @@ export const upsertUserTargetBand = async (userId: string, target: number) => {
 		throw new Error(error.message || "Failed to upsert target band");
 	}
 };
+
+export const getUserComponentResults = async (
+	userId: string,
+	// component: "Listening" | "Reading" | "Writing" | "Speaking"
+	component: TestComponentType
+): Promise<TestResult[]> => {
+	const supabase = createSupabaseClient();
+
+	const tableMap = {
+		// Listening: "listening_results",
+		// Reading: "reading_results",
+		Writing: "writing_results",
+		Speaking: "speaking_results",
+	};
+	console.log(component);
+
+	const { data, error } = await supabase
+		.from(tableMap[component])
+		.select("id, set_id, total_score, created_at")
+		.eq("user_id", userId)
+		.order("created_at", { ascending: false })
+		.limit(5);
+
+	if (error) throw new Error(error.message);
+
+	return data.map((item) => ({
+		id: item.id,
+		set_id: item.set_id,
+		total_score: item.total_score,
+		// topic: item.topic,
+		date: item.created_at,
+	}));
+};
