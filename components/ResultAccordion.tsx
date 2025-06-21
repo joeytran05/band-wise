@@ -74,13 +74,15 @@ export default function ResultAccordion({ results }: ResultAccordionProps) {
 											</CardTitle>
 										</CardHeader>
 										<CardContent className="space-y-2 text-sm">
-											<p>
+											{/* <p>
 												<strong>Topic:</strong>{" "}
 												{res.topic}
-											</p>
-											<p>
+											</p> */}
+											<p className="text-xl">
 												<strong>Band:</strong>{" "}
-												{res.total_score.toFixed(1)}
+												<span className="text-primary font-bold">
+													{res.total_score.toFixed(1)}
+												</span>
 											</p>
 											<Link
 												href={`/take-tests/${comp.toLowerCase()}/${

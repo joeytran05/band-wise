@@ -6,6 +6,7 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import { Button } from "@/components/ui/button";
 import { PricingTable } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
+import { Sparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -15,7 +16,7 @@ const Landing = async () => {
 	const isSignedIn = !!userId;
 
 	return (
-		<main>
+		<main className="relative overflow-hidden">
 			<div className="bg-primary max-h-lg">
 				<p className="font-semibold text-white text-[12px] lg:text-xl text-center align-middle py-2">
 					Start your IELTS journey today
@@ -33,17 +34,20 @@ const Landing = async () => {
 						className="object-cover pointer-events-none z-0 fade-bottom"
 					/>
 					<div className="relative z-10 pt-5 pb-10">
-						<Image
+						{/* <Image
 							src="/grad-cap.svg"
 							alt="Cap"
 							width={70}
 							height={70}
 							className="mx-auto mb-6"
-						/>
+						/> */}
+						<Sparkles className="w-16 h-16 mx-auto mt-4 mb-6 text-pink-500 animate-pulse" />
+
 						<h1 className="text-2xl font-extrabold">
 							Achieve your desired
 							<br />
-							band score with BandWise
+							band score with{" "}
+							<span className="text-primary">BandWise</span>
 						</h1>
 						{/* <button className="mt-6 px-6 py-3 rounded-full bg-red-500 text-white hover:brightness-110 transition font-semibold">
 							Begin now
@@ -64,11 +68,12 @@ const Landing = async () => {
 			<FeaturesSection />
 
 			<TestimonialsSection />
+			{/* <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#fef9f9] via-white to-[#ffaeae]" /> */}
 
 			{/* <PricingSection /> */}
 
 			<div
-				className="max-w-5xl mx-auto px-4 py-10 text-center"
+				className="max-w-5xl mx-auto px-4 py-10 text-center mb-6"
 				id="pricing"
 			>
 				<h2 className="text-3xl font-bold mb-4 text-gray-900">

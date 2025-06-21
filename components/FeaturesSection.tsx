@@ -55,12 +55,12 @@ const features = [
 
 export default function FeatureSection() {
 	return (
-		<section id="features" className="py-16 bg-white">
+		<section id="features" className="py-16">
 			<div className="max-w-7xl mx-auto px-6 text-center">
 				<h2 className="text-3xl font-bold mb-4">Why BandWise?</h2>
 				<p className="text-gray-600 mb-10">
 					Tools designed to help you master every IELTS section with
-					AI precision.
+					AI.
 				</p>
 
 				{/* Mobile View */}

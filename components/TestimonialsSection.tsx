@@ -56,7 +56,8 @@ const TestimonialsSection = () => {
 	return (
 		<section
 			id="testimonials"
-			className="py-20 bg-gradient-to-b from-white to-gray-50"
+			// className="py-20"
+			className="bg-gradient-to-b from-white to-gray-50 py-20"
 		>
 			<h2 className="text-center text-3xl font-bold mb-12 text-gray-800 px-10">
 				Join our community of successful test-takers

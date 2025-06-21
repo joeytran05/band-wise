@@ -68,7 +68,7 @@ const TakeTests = async () => {
 							<CardTitle className="text-lg font-semibold flex items-center gap-2">
 								{test.title}
 								{test.ai && (
-									<span className="text-xs px-2 py-1 bg-yellow-300 text-yellow-900 rounded-full font-semibold uppercase">
+									<span className="text-xs px-2 py-1 bg-yellow-300 text-yellow-900 rounded-full font-semibold uppercase animate-pulse">
 										AI
 									</span>
 								)}
