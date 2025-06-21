@@ -177,3 +177,9 @@ export const mockListeningQuestions = [
 		question: "One of the major benefits mentioned is increased ______.",
 	},
 ];
+
+export enum TestPart {
+	part1 = "Part 1",
+	part2 = "Part 2",
+	part3 = "Part 3",
+}

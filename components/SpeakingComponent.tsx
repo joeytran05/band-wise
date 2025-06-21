@@ -15,8 +15,8 @@ import loadingSpinner from "@/constants/loading.json";
 import { useRouter } from "next/navigation";
 import DropDownMenu from "./DropDownMenu";
 import { createSpeakingFeedback } from "@/lib/actions/test.action";
-import { TestPart } from "@/app/(root)/take-tests/speaking/[id]/page";
 import { toast } from "sonner";
+import { TestPart } from "@/constants";
 
 enum CallStatus {
 	INACTIVE = "INACTIVE",
@@ -120,7 +120,6 @@ const SpeakingComponent = ({
 	useEffect(() => {
 		const role = messages[0]?.role;
 		const content = messages[0]?.content.toLowerCase();
-		console.log(content);
 
 		if (role === "assistant") {
 			if (content.includes("part 2")) {

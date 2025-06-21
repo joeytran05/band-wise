@@ -1,17 +1,12 @@
 "use client";
 
 import SpeakingComponent from "@/components/SpeakingComponent";
+import { TestPart } from "@/constants";
 import { getSpeakingSetForUser } from "@/lib/actions/test.action";
 import { RedirectToSignIn, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
-
-export enum TestPart {
-	part1 = "Part 1",
-	part2 = "Part 2",
-	part3 = "Part 3",
-}
 
 enum TestMode {
 	FULL = "full",

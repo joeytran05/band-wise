@@ -25,7 +25,6 @@ const SpeakingTestSession = async () => {
 	if (!userId) return <RedirectToSignIn />;
 
 	const hasSpeakingPermission = await getSpeakingPermission();
-	console.log("Has speaking permission:", hasSpeakingPermission);
 
 	return (
 		<div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
