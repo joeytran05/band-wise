@@ -43,6 +43,7 @@ const SpeakingComponent = ({
 	const [isMuted, setIsMuted] = useState<boolean>(false);
 	const [readyState, setReadyState] = useState<boolean>(false); // Waiting for questions to be loaded
 	const [isPartTwo, setIsPartTwo] = useState<boolean>(false);
+	const [isPartThree, setIsPartThree] = useState<boolean>(false);
 	const [isGeneratingFeedback, setIsGeneratingFeedback] =
 		useState<boolean>(false);
 
@@ -120,15 +121,15 @@ const SpeakingComponent = ({
 	useEffect(() => {
 		const role = messages[0]?.role;
 		const content = messages[0]?.content.toLowerCase();
-
+		console.log("Latest message:", messages[0]);
 		if (role === "assistant") {
 			if (content.includes("part 2")) {
 				setTestPart(TestPart.part2);
 				setIsPartTwo(true);
-				console.log(isPartTwo);
 			} else if (content.includes("part 3")) {
 				setTestPart(TestPart.part3);
 				setIsPartTwo(false);
+				setIsPartThree(true);
 			}
 		}
 
@@ -157,7 +158,11 @@ const SpeakingComponent = ({
 		// 	}, 2000);
 		// }
 
-		if (role === "assistant" && content.includes("concludes the ielts")) {
+		if (
+			role === "assistant" &&
+			(content.includes("concludes the ielts") ||
+				content.includes("feedback"))
+		) {
 			setShowEndPrompt(true);
 		}
 	}, [messages, setTestPart, isPartTwo]);
@@ -373,12 +378,19 @@ const SpeakingComponent = ({
 					</button>
 				</div>
 			</section>
-			{/*TODO: Fix that for every part 2 questions the cue card displays correctly*/}
+
 			<div className="mt-6 px-4 bg-blue-50 rounded-md text-sm text-blue-900">
 				<DropDownMenu
-					value={isPartTwo ? "item-1" : ""}
+					value={isPartTwo || isPartThree ? "item-1" : ""}
 					trigger={
-						<h3 className="font-semibold mb-2">Part 2 Cue Card</h3>
+						<div className="flex items-center gap-2 mb-2">
+							<h3 className="font-semibold">Part 2 Cue Card</h3>
+							{!(isPartTwo && isPartThree) && (
+								<span className="text-xs px-2 py-1 bg-red-300 text-yellow-900 rounded-full font-semibold uppercase">
+									Only Available in Part 2
+								</span>
+							)}
+						</div>
 					}
 					content={
 						<div>
