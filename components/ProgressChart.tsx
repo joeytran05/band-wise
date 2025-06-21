@@ -11,6 +11,9 @@ import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getUserScoresWithTarget } from "@/lib/actions/dashboard.action";
+import Link from "next/link";
+import { BarChart3 } from "lucide-react";
+import { Button } from "./ui/button";
 
 const chartConfig = {
 	band: {
@@ -26,7 +29,7 @@ const chartConfig = {
 const ProgressChart = () => {
 	const { user } = useUser();
 	const [chartData, setChartData] = useState<
-		{ day: string; band: number; target: number }[]
+		{ day: string; band: number; target: number }[] | null
 	>([]);
 	const [loading, setLoading] = useState(true);
 
@@ -49,6 +52,28 @@ const ProgressChart = () => {
 		return (
 			<div className="w-full lg:h-64 md:h-64">
 				<Skeleton className="w-full h-full rounded-md" />
+			</div>
+		);
+	}
+
+	if (!chartData) {
+		return (
+			<div className="flex flex-col items-center justify-center py-10 gap-4 text-center text-light-100">
+				<span className="flex items-center gap-2 text-2xl px-5 py-1 bg-yellow-300 text-yellow-900 rounded-full font-semibold uppercase">
+					No Progress Yet
+					<BarChart3 className="w-8 h-8 text-primary-300" />
+				</span>
+
+				<p className="text-sm text-gray-300 max-w-xs">
+					Take a few practice tests to start tracking your band score
+					progress here.
+				</p>
+
+				<Link href="/take-tests">
+					<Button className="bg-primary-500 text-white hover:bg-primary-400 transition-colors hover:cursor-pointer mt-2">
+						Start Your First Test
+					</Button>
+				</Link>
 			</div>
 		);
 	}

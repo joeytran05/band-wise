@@ -75,7 +75,7 @@ export const getUserTargetBand = async (userId: string): Promise<number> => {
 
 export const getUserScoresWithTarget = async (
 	userId: string
-): Promise<ScoreData[]> => {
+): Promise<ScoreData[] | null> => {
 	const supabase = createSupabaseClient();
 
 	// 1. Calculate date range for last 7 days (including today)
@@ -95,6 +95,10 @@ export const getUserScoresWithTarget = async (
 		throw new Error(
 			scoresError.message || "Failed to fetch daily average scores"
 		);
+	}
+
+	if (!scoresData || scoresData.length === 0) {
+		return null;
 	}
 
 	// 3. Fetch target band for user
