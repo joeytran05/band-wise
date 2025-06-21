@@ -9,7 +9,7 @@ const LandingNavBar = ({ isSignedIn }: { isSignedIn: boolean }) => {
 	return (
 		<div className="flex items-center justify-between max-w-7xl mx-auto border-b p-4">
 			{/* SideMenu */}
-			<SideMenu />
+			<SideMenu isSignedIn={isSignedIn} />
 
 			{/* Center section navigation links */}
 			<div

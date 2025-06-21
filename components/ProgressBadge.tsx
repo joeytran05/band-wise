@@ -24,24 +24,6 @@ const ProgressBadge = async ({ test }: { test: string }) => {
 			<span className="text-sm px-3 py-1 rounded-full inline-flex items-center gap-2 bg-green-100 text-green-800">
 				{completedCount} of {numberOfSets} completed
 			</span>
-
-			{/* <span
-				className={cn(
-					"text-sm px-3 py-1 rounded-full inline-flex items-center gap-2",
-					isLoading
-						? "bg-muted text-muted-foreground animate-pulse"
-						: "bg-green-100 text-green-800"
-				)}
-			>
-				{isLoading ? (
-					<>
-						<Loader2 className="w-3 h-3 animate-spin" />
-						<span>Loading...</span>
-					</>
-				) : (
-					`${completedCount} of ${numberOfSets ?? "?"} completed`
-				)}
-			</span> */}
 		</div>
 	);
 };

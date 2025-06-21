@@ -53,39 +53,6 @@ const features = [
 	},
 ];
 
-// const features = [
-// 	{
-// 		title: "AI Speaking",
-// 		description: "Instant pronunciation feedback.",
-// 		icon: Mic,
-// 	},
-// 	{
-// 		title: "AI Writing",
-// 		description: "Detailed writing evaluation.",
-// 		icon: PencilLine,
-// 	},
-// 	{
-// 		title: "Progress Tracking",
-// 		description: "Track your IELTS growth.",
-// 		icon: TrendingUp,
-// 	},
-// 	{
-// 		title: "Voice Practice",
-// 		description: "Practice speaking exercises.",
-// 		icon: Volume2,
-// 	},
-// 	{
-// 		title: "Personalized Learning",
-// 		description: "Custom study paths.",
-// 		icon: Brain,
-// 	},
-// 	{
-// 		title: "Mock Test Bank",
-// 		description: "Full IELTS mock exams.",
-// 		icon: BookOpen,
-// 	},
-// ];
-
 export default function FeatureSection() {
 	return (
 		<section id="features" className="py-16 bg-white">
@@ -96,7 +63,7 @@ export default function FeatureSection() {
 					AI precision.
 				</p>
 
-				{/* 📱 Mobile View: Carousel */}
+				{/* Mobile View */}
 				<div className="block lg:hidden">
 					<Carousel opts={{ loop: true }} className="w-full">
 						<CarouselContent className="-ml-4">
@@ -124,7 +91,7 @@ export default function FeatureSection() {
 					</Carousel>
 				</div>
 
-				{/* 🖥️ Desktop View: Grid */}
+				{/* Desktop View */}
 				<div className="hidden lg:grid grid-cols-3 gap-6 px-4">
 					{features.map((feat, index) => (
 						<FeatureCard

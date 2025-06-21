@@ -8,7 +8,6 @@ import { toast } from "sonner";
 const MicTest = () => {
 	const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 	const [recording, setRecording] = useState(false);
-	// const [audioUrl, setAudioUrl] = useState<string | null>(null);
 	const chunks = useRef<Blob[]>([]);
 
 	const handleRecordToggle = async () => {
@@ -27,7 +26,6 @@ const MicTest = () => {
 						type: "audio/webm",
 					});
 					const url = URL.createObjectURL(blob);
-					// setAudioUrl(url);
 
 					// Clean up media stream
 					stream.getTracks().forEach((track) => track.stop());
@@ -69,13 +67,6 @@ const MicTest = () => {
 					</>
 				)}
 			</Button>
-
-			{/* {audioUrl && !recording && (
-				<div className="flex items-center gap-2 text-sm text-muted-foreground">
-					<Play className="w-4 h-4" />
-					Audio played back automatically.
-				</div>
-			)} */}
 		</div>
 	);
 };
