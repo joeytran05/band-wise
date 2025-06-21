@@ -1,6 +1,7 @@
 import OnboardingModal from "@/components/OnboardingModal";
 import ProgressChart from "@/components/ProgressChart";
 import TargetBandModal from "@/components/TargetBandModal";
+import { RedirectToSignIn } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import {
 	BarChart3,
@@ -11,14 +12,11 @@ import {
 	Lightbulb,
 } from "lucide-react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 const Dashboard = async () => {
 	const user = await currentUser();
 
-	if (!user) {
-		redirect("/");
-	}
+	if (!user) return <RedirectToSignIn />;
 
 	return (
 		<>

@@ -447,32 +447,29 @@
 		}
 	}
 
-	.accordion-content {
-		overflow: hidden;
+	@keyframes accordion-down {
+		from {
+			height: 0;
+		}
+		to {
+			height: var(--radix-accordion-content-height);
+		}
 	}
+
+	@keyframes accordion-up {
+		from {
+			height: var(--radix-accordion-content-height);
+		}
+		to {
+			height: 0;
+		}
+	}
+
 	.accordion-content[data-state="open"] {
-		animation: slideDown 300ms ease-out;
+		animation: accordion-down 300ms ease-out;
 	}
 	.accordion-content[data-state="closed"] {
-		animation: slideUp 300ms ease-out;
-	}
-
-	@keyframes slideDown {
-		from {
-			height: 0;
-		}
-		to {
-			height: var(--radix-accordion-content-height);
-		}
-	}
-
-	@keyframes slideUp {
-		from {
-			height: var(--radix-accordion-content-height);
-		}
-		to {
-			height: 0;
-		}
+		animation: accordion-up 300ms ease-out;
 	}
 
 	.animate-fade-in {
