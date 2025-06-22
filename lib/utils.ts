@@ -20,7 +20,7 @@ export const configureAssistantFull = (voice: string, style: string) => {
 	const examiner: CreateAssistantDTO = {
 		name: "Examiner",
 		firstMessage:
-			"Hello! Welcome to IELTS Speaking Test. My name is Wise AI, and I will be your examiner today. Let's talk about {{firstTopic}}.",
+			"Hello! Welcome to IELTS Speaking Test. My name is Wise AI, and I will be your examiner today. Let's talk about {{firstTopic}}. Please say 'im ready' to begin the test.",
 		transcriber: {
 			provider: "deepgram",
 			model: "nova-3",
@@ -102,7 +102,7 @@ export const configureAssistantPart1 = (voice: string, style: string) => {
 	const examiner: CreateAssistantDTO = {
 		name: "Examiner",
 		firstMessage:
-			"Hello! Welcome to IELTS Speaking Test. My name is Wise AI, and I will be your examiner today. Let's talk about {{firstTopic}}.",
+			"Hello! Welcome to IELTS Speaking Test. My name is Wise AI, and I will be your examiner today. Let's talk about {{firstTopic}}. Please say 'im ready' to begin the test.",
 		transcriber: {
 			provider: "deepgram",
 			model: "nova-3",
@@ -181,7 +181,7 @@ export const configureAssistantPart2and3 = (voice: string, style: string) => {
 	const examiner: CreateAssistantDTO = {
 		name: "Examiner",
 		firstMessage:
-			"Hello! Welcome to IELTS Speaking Test. My name is Wise AI, and I will be your examiner today. Let's talk about {{firstTopic}}.",
+			"Hello! Welcome to IELTS Speaking Test. My name is Wise AI, and I will be your examiner today. Let's talk about {{firstTopic}}. Please say 'im ready' to begin the test.",
 		transcriber: {
 			provider: "deepgram",
 			model: "nova-3",
