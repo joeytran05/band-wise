@@ -178,7 +178,7 @@ export const mockListeningQuestions = [
 	},
 ];
 
-export enum TestPart {
+export enum SpeakingTestPart {
 	part1 = "Part 1",
 	part2 = "Part 2",
 	part3 = "Part 3",

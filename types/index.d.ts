@@ -69,17 +69,8 @@ interface FeatureCardProps {
 	icon: LucideIcon;
 }
 
-interface SpeakingComponentProps {
-	userId: string;
-	userName: string;
-	userImage: string;
-	setId: string;
-	firstPartId: string;
-	questions: FullTestQuestions;
-	topics: string[];
-	mode: TestMode;
-	setTestPart: (part: TestPart) => void;
-}
+type WritingTestMode = "task1" | "task2";
+type SpeakingTestMode = "full" | "part1" | "part2and3";
 
 interface WritingComponentProps {
 	topic?: string;
@@ -87,7 +78,30 @@ interface WritingComponentProps {
 	firstPartImgUrl: string;
 	secondPart: string;
 	setId: string;
-	mode: TestMode;
+	mode: WritingTestMode;
+}
+
+interface SpeakingComponentProps {
+	firstTopic: string;
+	secondTopic: string;
+	part1: Questions[];
+	part2: CueCard;
+	part3: Questions[];
+	firstPartId: string;
+	setId: string;
+	mode: SpeakingTestMode;
+}
+
+interface SpeakingVapiModelProps {
+	userId: string;
+	userName: string;
+	userImage: string;
+	setId: string;
+	firstPartId: string;
+	questions: FullTestQuestions;
+	topics: string[];
+	mode: SpeakingTestMode;
+	setTestPart: (part: TestPart) => void;
 }
 
 interface FirstPart {

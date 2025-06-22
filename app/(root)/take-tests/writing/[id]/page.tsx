@@ -22,9 +22,13 @@ const WritingTestSession = async ({
 
 	return (
 		<>
-			<AccessControlClient />
+			<AccessControlClient route="writing" />
 			<div className="w-full h-[90vh]">
-				<WritingComponent {...writingSet} setId={id} mode={mode} />
+				<WritingComponent
+					{...writingSet}
+					setId={id}
+					mode={mode as WritingTestMode}
+				/>
 			</div>
 		</>
 	);

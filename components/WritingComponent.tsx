@@ -13,6 +13,8 @@ import { createWritingFeedback } from "@/lib/actions/test.action";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Lottie from "lottie-react";
+import loadingSpinner from "@/constants/loading.json";
 
 const WritingComponent = ({
 	// topic,
@@ -24,7 +26,7 @@ const WritingComponent = ({
 }: WritingComponentProps) => {
 	const [task1, setTask1] = useState("");
 	const [task2, setTask2] = useState("");
-	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false);
 	const [submitted, setSubmitted] = useState(false);
 	const { user } = useUser();
 	const router = useRouter();
@@ -32,10 +34,10 @@ const WritingComponent = ({
 	const { formatted, isTimeUp } = useCountdown(60);
 
 	const handleSubmit = async () => {
-		setIsSubmitting(true);
+		setIsGeneratingFeedback(true);
 		setSubmitted(true);
 		handleGenerateFeedback().finally(() => {
-			setIsSubmitting(false);
+			setIsGeneratingFeedback(false);
 		});
 	};
 
@@ -131,7 +133,13 @@ const WritingComponent = ({
 
 				{/* Right Panel */}
 				<div className="md:w-1/2 p-4 flex flex-col h-full">
-					<h2 className="font-semibold mb-2">Your Answer</h2>
+					<div className="flex justify-between items-center">
+						<h2 className="font-semibold mb-2">Your Answer</h2>
+						<CountdownTimer
+							formatted={formatted}
+							isTimeUp={isTimeUp}
+						/>
+					</div>
 					<Textarea
 						value={task2}
 						onChange={(e) => setTask2(e.target.value)}
@@ -144,13 +152,13 @@ const WritingComponent = ({
 			</TabsContent>
 
 			{/* Submit */}
-			<div className="flex justify-end px-4 pt-3">
+			<div className="flex justify-end items-end px-4 pt-3">
 				<Button
-					disabled={isSubmitting}
+					disabled={isGeneratingFeedback}
 					onClick={handleSubmit}
 					className="w-full md:w-auto"
 				>
-					{isSubmitting ? (
+					{isGeneratingFeedback ? (
 						<div className="flex items-center gap-2">
 							<Loader2 className="w-4 h-4 animate-spin" />
 							<span>Submitting...</span>
@@ -165,6 +173,21 @@ const WritingComponent = ({
 				<p className="text-center text-green-600 text-sm mt-2">
 					✅ Your answers were submitted successfully.
 				</p>
+			)}
+
+			{isGeneratingFeedback && (
+				<div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-white/30">
+					<div className="flex flex-col items-center">
+						<Lottie
+							animationData={loadingSpinner}
+							loop
+							className="w-32 h-32"
+						/>
+						<p className="mt-4 text-lg text-gray-800 font-semibold">
+							Generating feedback...
+						</p>
+					</div>
+				</div>
 			)}
 		</Tabs>
 	);

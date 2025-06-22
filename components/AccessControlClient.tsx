@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTestAccessStore } from "@/stores/useTestAccessStore";
 
-const AccessControlClient = () => {
+const AccessControlClient = ({ route }: { route: string }) => {
 	const router = useRouter();
 	const [hasChecked, setHasChecked] = useState(false);
 	const { testAccessAllowed, revokeAccess } = useTestAccessStore();
@@ -13,13 +13,13 @@ const AccessControlClient = () => {
 		if (hasChecked) return;
 
 		if (!testAccessAllowed) {
-			router.replace("/take-tests/writing");
+			router.replace(`/take-tests/${route}`);
 		} else {
 			revokeAccess();
 		}
 
 		setHasChecked(true);
-	}, [testAccessAllowed, router, revokeAccess, hasChecked]);
+	}, [testAccessAllowed, router, revokeAccess, hasChecked, route]);
 
 	return null;
 };
