@@ -6,6 +6,7 @@ import FeatureDescription from "@/components/FeatureDescription";
 import ProgressBadge from "@/components/ProgressBadge";
 import { auth } from "@clerk/nextjs/server";
 import { getTopicAndId } from "@/lib/actions/test.action";
+import AIBadge from "@/components/AIBadge";
 
 const testModes = [
 	{ label: "Full Test", value: "full" },
@@ -13,11 +14,13 @@ const testModes = [
 	{ label: "Task 2 Only", value: "task2" },
 ];
 
-const SpeakingTestSession = async () => {
-	const { userId } = await auth();
+const WritingTest = async () => {
+	const { userId, has } = await auth();
 	const { uniqueTopics } = await getTopicAndId("speaking");
 
 	if (!userId) return <RedirectToSignIn />;
+
+	const hasPartialAccess = has({ plan: "premium_plan" });
 
 	return (
 		<div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
@@ -33,9 +36,12 @@ const SpeakingTestSession = async () => {
 			{/* Format Card */}
 			<Card>
 				<CardContent className="space-y-3 px-5">
-					<h2 className="text-xl font-semibold">
-						Writing Test Format
-					</h2>
+					<div className="flex items-center justify-between">
+						<h2 className="text-xl font-semibold">
+							Writing Test Format
+						</h2>
+						<AIBadge />
+					</div>
 					<ul className="list-disc pl-5 text-gray-700 text-sm space-y-1">
 						<li>
 							<strong>Task 1:</strong> Describe visual information
@@ -76,9 +82,10 @@ const SpeakingTestSession = async () => {
 				test="writing"
 				sets={uniqueTopics}
 				testModes={testModes}
+				hasPartialAccess={hasPartialAccess}
 			/>
 		</div>
 	);
 };
 
-export default SpeakingTestSession;
+export default WritingTest;

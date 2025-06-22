@@ -23,7 +23,7 @@ const Dashboard = async () => {
 			<OnboardingModal />
 			<main className="p-6 space-y-8 max-w-6xl mx-auto">
 				{/* Header */}
-				<div className="flex justify-between">
+				<div className="flex justify-between max-sm:items-end">
 					<h1 className="text-3xl font-bold">
 						Welcome back, {user?.fullName}!
 					</h1>

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RedirectToSignIn } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
+import AIBadge from "@/components/AIBadge";
 
 const tests = [
 	{
@@ -58,27 +59,25 @@ const TakeTests = async () => {
 				tracked.
 			</p>
 
-			<div className="flex flex-wrap justify-center gap-6">
+			<div className="flex flex-wrap justify-center gap-6 max-sm:flex-col max-sm:items-center">
 				{tests.map((test) => (
 					<Card
 						key={test.title}
-						className="transition hover:shadow-md w-[45%]"
+						className="transition hover:shadow-md w-[45%] max-sm:w-full"
 					>
 						<CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-							<CardTitle className="text-lg font-semibold flex items-center gap-2">
-								{test.title}
-								{test.ai && (
-									<span className="text-xs px-2 py-1 bg-yellow-300 text-yellow-900 rounded-full font-semibold uppercase animate-pulse">
-										AI
-									</span>
-								)}
-								{test.comingSoon && (
-									<span className="text-xs px-2 py-1 bg-red-300 text-yellow-900 rounded-full font-semibold uppercase">
-										Coming Soon
-									</span>
-								)}
+							<CardTitle className="text-lg font-semibold flex items-center justify-between w-full">
+								<div className="flex items-center gap-2">
+									{test.title}
+									{test.ai && <AIBadge />}
+									{test.comingSoon && (
+										<span className="text-xs px-2 py-1 bg-red-300 text-yellow-900 rounded-full font-semibold uppercase">
+											Coming Soon
+										</span>
+									)}
+								</div>
+								{test.icon}
 							</CardTitle>
-							{test.icon}
 						</CardHeader>
 						<CardContent className="flex flex-col justify-between h-full">
 							<p className="text-sm text-muted-foreground mb-4">

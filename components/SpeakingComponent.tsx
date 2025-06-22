@@ -271,7 +271,7 @@ const SpeakingComponent = ({
 	return (
 		<section className="flex flex-col h-[70vh] mb-20">
 			<section className="flex gap-8 max-sm:flex-col">
-				<div className="speaking-section">
+				<div className="speaking-section max-sm:py-5">
 					<div
 						className="speaking-avatar"
 						style={{ backgroundColor: "pink" }}

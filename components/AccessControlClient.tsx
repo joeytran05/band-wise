@@ -12,7 +12,6 @@ const AccessControlClient = () => {
 	useEffect(() => {
 		if (hasChecked) return;
 
-		console.log(testAccessAllowed);
 		if (!testAccessAllowed) {
 			router.replace("/take-tests/writing");
 		} else {

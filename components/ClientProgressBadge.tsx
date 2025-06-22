@@ -9,7 +9,7 @@ import {
 } from "@/lib/actions/test.action";
 import { cn } from "@/lib/utils";
 
-const ProgressBadge = ({ test }: { test: string }) => {
+const ClientProgressBadge = ({ test }: { test: string }) => {
 	const { user, isLoaded } = useUser();
 	const [completedCount, setCompletedCount] = useState<number>(0);
 	const [numberOfSets, setNumberOfSets] = useState<number>(0);
@@ -42,7 +42,7 @@ const ProgressBadge = ({ test }: { test: string }) => {
 		<div className="flex justify-end">
 			<span
 				className={cn(
-					"text-sm px-3 py-1 rounded-full inline-flex items-center gap-2",
+					"text-sm px-3 py-1 rounded-full inline-flex items-center gap-2 max-sm:text-center",
 					isLoading
 						? "bg-muted text-muted-foreground animate-pulse"
 						: "bg-green-100 text-green-800"
@@ -61,4 +61,4 @@ const ProgressBadge = ({ test }: { test: string }) => {
 	);
 };
 
-export default ProgressBadge;
+export default ClientProgressBadge;

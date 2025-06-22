@@ -11,6 +11,7 @@ import TestSelector from "@/components/TestSelector";
 import FeatureDescription from "@/components/FeatureDescription";
 import { auth } from "@clerk/nextjs/server";
 import SpeakingLimitModal from "@/components/SpeakingLimitModal";
+import AIBadge from "@/components/AIBadge";
 
 const testModes = [
 	{ label: "Full Test", value: "full" },
@@ -18,13 +19,14 @@ const testModes = [
 	{ label: "Part 2 & 3", value: "part2and3" },
 ];
 
-const SpeakingTestSession = async () => {
-	const { userId } = await auth();
+const SpeakingTest = async () => {
+	const { userId, has } = await auth();
 	const { uniqueTopics } = await getTopicAndId("speaking");
 
 	if (!userId) return <RedirectToSignIn />;
 
 	const hasSpeakingPermission = await getSpeakingPermission();
+	const hasPartialAccess = !has({ plan: "premium_plan" });
 
 	return (
 		<div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
@@ -45,9 +47,12 @@ const SpeakingTestSession = async () => {
 			{/* Format Card */}
 			<Card>
 				<CardContent className="space-y-3 px-5">
-					<h2 className="text-xl font-semibold">
-						Speaking Test Format
-					</h2>
+					<div className="flex items-center justify-between">
+						<h2 className="text-xl font-semibold">
+							Speaking Test Format
+						</h2>
+						<AIBadge />
+					</div>
 					<ul className="list-disc pl-5 text-gray-700 text-sm space-y-1">
 						<li>
 							<strong>Part 1:</strong> Introduction & Interview
@@ -93,9 +98,10 @@ const SpeakingTestSession = async () => {
 				test="speaking"
 				sets={uniqueTopics}
 				testModes={testModes}
+				hasPartialAccess={hasPartialAccess}
 			/>
 		</div>
 	);
 };
 
-export default SpeakingTestSession;
+export default SpeakingTest;
