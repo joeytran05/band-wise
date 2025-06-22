@@ -26,16 +26,10 @@ const navItemsSmall = [
 	{ label: "Dashboard", href: "/dashboard" },
 	{ label: "Take Tests", href: "/take-tests" },
 	{ label: "Previous Results", href: "/results" },
-	{ label: "Subscription", href: "/subscription" },
 	{ label: "Landing", href: "/" },
+	{ label: "Subscription", href: "/subscription" },
+	{ label: "About Us", href: "/about" },
 ];
-
-// const mockTestItems = [
-// 	{ label: "Listening", href: "/take-tests/listening" },
-// 	{ label: "Reading", href: "/take-tests/reading" },
-// 	{ label: "Writing", href: "/take-tests/writing" },
-// 	{ label: "Speaking", href: "/take-tests/speaking" },
-// ];
 
 const SideMenu = ({ isSignedIn }: { isSignedIn: boolean | undefined }) => {
 	return (
@@ -61,56 +55,19 @@ const SideMenu = ({ isSignedIn }: { isSignedIn: boolean | undefined }) => {
 						</DrawerHeader>
 
 						<nav className="mt-6 px-4 flex flex-col gap-4 text-lg text-gray-700 dark:text-gray-200">
-							{navItemsLarge.map(
-								(item) => (
-									<Link
-										key={item.href}
-										href={item.href}
-										className={`text-lg font-semibold hover:text-primary transition ${
-											item.label === "Landing"
-												? "border-t-1 border-black pt-10 mt-5"
-												: ""
-										}`}
-									>
-										{item.label}
-									</Link>
-								)
-								// item.label === "Take Tests" ? (
-								// 	<DropDownMenu
-								// 		key={item.href}
-								// 		trigger={
-								// 			<span className="text-lg font-semibold hover:text-primary transition">
-								// 				Take Tests
-								// 			</span>
-								// 		}
-								// 		content={
-								// 			<div className="flex flex-col gap-2 pl-4 mt-2">
-								// 				{mockTestItems.map((mock) => (
-								// 					<Link
-								// 						key={mock.href}
-								// 						href={mock.href}
-								// 						className="text-sm hover:text-primary transition text-muted-foreground"
-								// 					>
-								// 						{mock.label}
-								// 					</Link>
-								// 				))}
-								// 			</div>
-								// 		}
-								// 	/>
-								// ) : (
-								// 	<Link
-								// 		key={item.href}
-								// 		href={item.href}
-								// 		className={`text-lg font-semibold hover:text-primary transition ${
-								// 			item.label === "Landing"
-								// 				? "mt-10"
-								// 				: ""
-								// 		}`}
-								// 	>
-								// 		{item.label}
-								// 	</Link>
-								// )
-							)}
+							{navItemsLarge.map((item) => (
+								<Link
+									key={item.href}
+									href={item.href}
+									className={`text-lg font-semibold hover:text-primary transition ${
+										item.label === "Landing"
+											? "border-t-1 border-black pt-10 mt-5"
+											: ""
+									}`}
+								>
+									{item.label}
+								</Link>
+							))}
 						</nav>
 
 						<div className="mt-auto pt-6">
@@ -144,7 +101,11 @@ const SideMenu = ({ isSignedIn }: { isSignedIn: boolean | undefined }) => {
 								<Link
 									key={item.href}
 									href={item.href}
-									className="text-lg font-medium"
+									className={`text-lg font-medium ${
+										item.label === "Landing"
+											? "border-t-1 border-black pt-3"
+											: ""
+									}`}
 								>
 									{item.label}
 								</Link>
