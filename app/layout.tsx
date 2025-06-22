@@ -3,6 +3,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Work_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
+import { Analytics } from "@vercel/analytics/next";
 
 const workSans = Work_Sans({
 	variable: "--font-work-sans",
@@ -25,6 +26,7 @@ export default function RootLayout({
 				<body className={`${workSans.className} antialiased`}>
 					{children}
 					<Toaster position="top-center" />
+					<Analytics />
 				</body>
 			</html>
 		</ClerkProvider>

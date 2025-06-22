@@ -13,10 +13,11 @@ const components = [
 ];
 
 const ResultsPage = async () => {
-	const { userId, has } = await auth();
+	const { userId } = await auth();
 	if (!userId) return <RedirectToSignIn />;
 
-	const hasAccess = has({ plan: "premium_plan" });
+	// const hasAccess = has({ plan: "premium_plan" });
+	const hasAccess = true;
 
 	const results: Record<string, TestResult[]> = {};
 	await Promise.all(
