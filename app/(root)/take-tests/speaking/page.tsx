@@ -26,7 +26,7 @@ const SpeakingTest = async () => {
 	if (!userId) return <RedirectToSignIn />;
 
 	const hasSpeakingPermission = await getSpeakingPermission();
-	const hasPartialAccess = !has({ plan: "premium_plan" });
+	const hasPartialAccess = has({ plan: "premium_plan" });
 
 	return (
 		<div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
