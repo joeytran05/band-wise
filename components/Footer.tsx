@@ -1,13 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { FaAppStoreIos } from "react-icons/fa";
-import { FaGooglePlay } from "react-icons/fa";
 
 const Footer = () => {
 	return (
 		<footer className="py-12 bg-white border-t">
-			<div className="lg:flex lg:flex-row lg:justify-between flex flex-col gap-8 max-w-6xl mx-auto px-4 text-sm">
+			<div className="lg:flex lg:flex-row lg:justify-between grid grid-cols-2 gap-8 max-w-6xl mx-auto px-4 text-sm">
 				<div className="flex flex-col items-center">
 					<p className="font-bold mb-2">IELTS BandWise</p>
 					<Image
@@ -38,7 +36,8 @@ const Footer = () => {
 					</ul>
 				</div>
 				<div>
-					<p className="font-bold mb-2">Join our community</p>
+					<p className="font-bold ">Join our community</p>
+					<p className="text-muted-foreground mb-1">Coming Soon!</p>
 					<ul className="space-y-1">
 						<li>Facebook</li>
 						<li>Instagram</li>
@@ -46,12 +45,14 @@ const Footer = () => {
 						<li>Discord</li>
 					</ul>
 				</div>
-				<div>
-					<p className="font-bold mb-2">Get the app</p>
-					<div className="flex flex-col gap-2">
+				<div className="col-span-2">
+					<p className="font-bold mb-2">
+						We are currently on web for mobile and desktop
+					</p>
+					{/* <div className="flex flex-col gap-2">
 						<FaAppStoreIos className="w-8 h-8 text-gray-700" />
 						<FaGooglePlay className="w-8 h-8 text-gray-700" />
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</footer>

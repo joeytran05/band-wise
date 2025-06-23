@@ -50,7 +50,7 @@ const ProgressChart = () => {
 
 	if (loading) {
 		return (
-			<div className="w-full lg:h-64 md:h-64">
+			<div className="w-full lg:h-64 md:h-64 h-42">
 				<Skeleton className="w-full h-full rounded-md" />
 			</div>
 		);
