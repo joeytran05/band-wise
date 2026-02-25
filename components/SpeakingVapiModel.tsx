@@ -37,7 +37,7 @@ const SpeakingVapiModel = ({
 	setTestPart, // FIX ERROR TOO MANY ENUM
 }: SpeakingVapiModelProps) => {
 	const [callStatus, setCallStatus] = useState<CallStatus>(
-		CallStatus.INACTIVE
+		CallStatus.INACTIVE,
 	);
 	const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
 	const [isMuted, setIsMuted] = useState<boolean>(false);
@@ -246,19 +246,19 @@ const SpeakingVapiModel = ({
 			vapi.start(
 				configureAssistantFull("male", "formal"),
 				// @ts-expect-error typecript error
-				assistantOverrides
+				assistantOverrides,
 			);
 		} else if (mode === "part1") {
 			vapi.start(
 				configureAssistantPart1("male", "formal"),
 				// @ts-expect-error typecript error
-				assistantOverrides
+				assistantOverrides,
 			);
 		} else {
 			vapi.start(
 				configureAssistantPart2and3("male", "formal"),
 				// @ts-expect-error typecript error
-				assistantOverrides
+				assistantOverrides,
 			);
 		}
 	};
@@ -284,7 +284,7 @@ const SpeakingVapiModel = ({
 									? "opacity-100"
 									: "opacity-0",
 								callStatus === CallStatus.CONNECTING &&
-									"opacity-100 animate-pulse"
+									"opacity-100 animate-pulse",
 							)}
 						>
 							<Image
@@ -300,7 +300,7 @@ const SpeakingVapiModel = ({
 								"absolute transition-opacity duration-1000",
 								callStatus === CallStatus.ACTIVE
 									? "opacity-100"
-									: "opacity-0"
+									: "opacity-0",
 							)}
 						>
 							<Lottie
@@ -331,7 +331,11 @@ const SpeakingVapiModel = ({
 						/>
 						<p className="font-bold text-2xl">{userName}</p>
 					</div>
-					<button className="btn-mic" onClick={toggleMicrophone}>
+					<button
+						className="btn-mic"
+						disabled={callStatus === CallStatus.INACTIVE}
+						onClick={toggleMicrophone}
+					>
 						<Image
 							src={
 								isMuted
@@ -362,7 +366,7 @@ const SpeakingVapiModel = ({
 								"glow-pulse",
 							!readyState &&
 								"bg-gray-400 cursor-not-allowed opacity-70",
-							showEndPrompt && "glow-pulse"
+							showEndPrompt && "glow-pulse",
 						)}
 						onClick={
 							callStatus === CallStatus.ACTIVE
@@ -373,8 +377,8 @@ const SpeakingVapiModel = ({
 						{callStatus === CallStatus.ACTIVE
 							? "End Session"
 							: callStatus === CallStatus.CONNECTING
-							? "Connecting"
-							: "Start Session"}
+								? "Connecting"
+								: "Start Session"}
 					</button>
 				</div>
 			</section>
