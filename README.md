@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## 🎯 BandWise - AI-Powered IELTS Preparation Platform
 
-## Getting Started
+BandWise helps you achieve your target IELTS band score faster - with real-time AI speaking tests powered by Vapi, automated writing evaluation, and personalized performance feedback.
 
-First, run the development server:
+BandWise is a full-featured IELTS practice platform designed to simulate the real exam experience using AI. It provides intelligent scoring, detailed feedback, and structured practice across all four IELTS components: Listening, Reading, Writing, and Speaking.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
+🗣️ Real-Time Speaking Test (AI Examiner)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Live IELTS speaking simulation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- AI examiner powered by Vapi
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Automatic transcription of responses
 
-## Learn More
+- Instant band score estimation
 
-To learn more about Next.js, take a look at the following resources:
+- Detailed feedback on fluency, coherence, grammar, and vocabulary
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+✍️ Writing Evaluation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Automated band score prediction
 
-## Deploy on Vercel
+- Task response analysis
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Grammar and vocabulary feedback
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Coherence and cohesion assessment
+
+📊 Performance Dashboard
+
+- Band score tracking over time
+
+- Test history review
+
+- Strength & weakness analysis
+
+- Improvement indicators
+
+## 🛠️ Tech Stack
+
+- Frontend: Next.js (TypeScript), React
+
+- Authentication & Payments: Clerk
+
+- Database: Supabase
+
+- AI Voice Engine: Vapi
+
+- AI Evaluation: OpenAI APIs
+
+## 🎯 What This Project Demonstrates
+
+- Real-time voice AI integration
+
+- Full-stack SaaS architecture
+
+- AI-driven scoring and feedback systems
+
+- Secure authentication and subscription handling
+
+- Scalable exam simulation platform
