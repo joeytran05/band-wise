@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
 	images: {
 		remotePatterns: [
 			{ hostname: "img.clerk.com" },
-			{ hostname: "wafsdjnmvgpkhnavjpzu.supabase.co" },
+			{ hostname: "oaxtnuprhwoqdxcnbedl.supabase.co" },
 		],
 	},
 };

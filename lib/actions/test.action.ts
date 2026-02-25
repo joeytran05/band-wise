@@ -43,7 +43,7 @@ export const getSpeakingSetForUser = async (id: string) => {
 
 	if (error || !questions) {
 		throw new Error(
-			error?.message || "No speaking set found for the given ID"
+			error?.message || "No speaking set found for the given ID",
 		);
 	}
 
@@ -71,7 +71,7 @@ export const getUniqueCompletedCount = async (userId: string, test: string) => {
 	}
 
 	const uniqueResults = new Set(
-		completedResults.map((result) => result.set_id)
+		completedResults.map((result) => result.set_id),
 	);
 
 	return uniqueResults.size;
@@ -87,7 +87,7 @@ export const getRandomSetId = async (userId: string, test: string) => {
 
 	if (completedError) {
 		throw new Error(
-			completedError?.message || "Error fetching completed sets"
+			completedError?.message || "Error fetching completed sets",
 		);
 	}
 
@@ -144,27 +144,31 @@ export const getWritingSetForUser = async (id: string) => {
 	const { data: set, error } = await supabase
 		.from("writing_sets")
 		.select(
-			"id, topic, first_part_question, first_part_img_url, second_part_question"
+			"id, topic, first_part_question, first_part_img_url, second_part_question",
 		)
 		.eq("id", id)
 		.single();
 
 	if (error || !set) {
 		throw new Error(
-			error?.message || "No writing set found for the given ID"
+			error?.message || "No writing set found for the given ID",
 		);
 	}
+
+	const { data: imageUrl } = supabase.storage
+		.from("writing-question-images")
+		.getPublicUrl(set.first_part_img_url);
 
 	return {
 		topic: set.topic,
 		firstPart: set.first_part_question,
-		firstPartImgUrl: set.first_part_img_url,
+		firstPartImgUrl: imageUrl.publicUrl,
 		secondPart: set.second_part_question,
 	} as WritingSet;
 };
 
 export const createSpeakingFeedback = async (
-	params: CreateSpeakingFeedbackParams
+	params: CreateSpeakingFeedbackParams,
 ) => {
 	const { testId, firstPartId, userId, transcript } = params;
 	const supabase = createSupabaseClient();
@@ -173,7 +177,7 @@ export const createSpeakingFeedback = async (
 		const formattedTranscript = transcript
 			.map(
 				(senctence: { role: string; content: string }) =>
-					`- ${senctence.role}: ${senctence.content}\n`
+					`- ${senctence.role}: ${senctence.content}\n`,
 			)
 			.join("");
 
@@ -186,7 +190,7 @@ export const createSpeakingFeedback = async (
 				final_assessment,
 			},
 		} = await generateObject({
-			model: google("gemini-2.0-flash-001", {
+			model: google("gemini-3-flash-preview", {
 				structuredOutputs: false,
 			}),
 			schema: speakingFeedbackSchema,
@@ -235,7 +239,7 @@ a feature which will help to determine the complexity of propositions which can 
 };
 
 export const createWritingFeedback = async (
-	params: CreateWritingFeedbackParams
+	params: CreateWritingFeedbackParams,
 ) => {
 	const { testId, userId, task1Question, task1, task2Question, task2 } =
 		params;
@@ -251,7 +255,7 @@ export const createWritingFeedback = async (
 				final_assessment,
 			},
 		} = await generateObject({
-			model: google("gemini-2.0-flash-001", {
+			model: google("gemini-3-flash-preview", {
 				structuredOutputs: false,
 			}),
 			schema: writingFeedbackSchema,
